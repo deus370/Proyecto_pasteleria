@@ -1,0 +1,32 @@
+{% macro render_input(name,placeholder, type="text") %}
+
+<div class="control-group">
+    <label class="control-label" for="{{name}}">{{ placeholder }}</label>
+    <div class="controls">
+        <div class="row">
+            <input type="{{type}}" name="{{name}}" class="input-xlarge" placeholder="{{placeholder}}" value="">
+
+        </div>
+    </div>
+</div>
+
+{% endmacro %}
+
+
+{% macro render_field(field) %}
+<div class="control-group">
+    <div class="controls">
+        <td>{{ field.label }}</td>
+        <td>{{field(**kwargs)|safe}}</td>
+    </div>
+</div>
+{% if field.errors %}
+<ul>
+    {% for error in field.errors %}
+    <li style="color: red">{{ error }}</li>
+    {%endfor%}
+</ul>
+
+{% endif %}
+
+{% endmacro %}
