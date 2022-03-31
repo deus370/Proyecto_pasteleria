@@ -49,6 +49,14 @@ class ProveedoresDB(db.Model):
     cp=db.Column(db.Integer, nullable=False)
     colonia=db.Column(db.String(100), nullable=False)
     
+class IngredientesDB(db.Model):
+    """Ingredientes account model"""
     
+    __tablename__ = 'Ingrediente'
+    id_ingrediente = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    Cantidad= db.Column(db.Double(100), nullable=False)
+    unidad=db.Column(db.String, nullable=False)
+    proveedor=db.Column(db.Integer, nullable=False)
    
     
