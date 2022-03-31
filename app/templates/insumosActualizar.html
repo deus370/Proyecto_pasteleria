@@ -22,30 +22,12 @@
 
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" value="{{i.cantidad}}" name="cantidad" type="text" placeholder="Calle" autofocus="">
+                    <input class="input is-large" value="{{i.cantidad}}" name="cantidad" type="float" placeholder="Calle" autofocus="">
                     
                 </div>
             </div>
 
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" value="{{i.unidad}}" name="unidad" type="number" placeholder="Numero" autofocus="">
-                    
-                </div>
-            </div>
-
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" value="{{i.id_proveedor}}" name="cp" type="number" placeholder="Codigo Postal" autofocus="">
-                </div>
-            </div>
-
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" value="{{i.colonia}}" name="colonia" type="text" placeholder="colonia" autofocus="">
-                    
-                </div>
-            </div>
+            {{render_field(user_form.unidad)}}
 
             {{render_field(user_form.proveedor)}}
 

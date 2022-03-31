@@ -108,9 +108,10 @@ def cargarActualizar():
     
     id = request.form.get('id')
     
+    
     result = IngredientesDB.query \
         .with_entities(IngredientesDB.id_ingrediente,IngredientesDB.nombre,IngredientesDB.cantidad,IngredientesDB.unidad,IngredientesDB.proveedor) \
-        .filter(IngredientesDB.nombre.like(id)).all()
+        .filter(IngredientesDB.id_ingrediente.like(id)).all()
         
     context={
         'user_form':user_form,
