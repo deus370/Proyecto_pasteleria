@@ -80,8 +80,8 @@ def eliminar():
     id = request.form.get('id')
     
     
-    proveedor = ProveedoresDB.query.filter_by(id_proveedor=id).first()
-    db.session.delete(proveedor)
+    insumo = IngredientesDB.query.filter_by(id_ingrediente=id).first()
+    db.session.delete(insumo)
     db.session.commit()
     
     flash("datos Eliminados")
@@ -93,10 +93,9 @@ def cargarActualizar():
     
     id = request.form.get('id')
     
-    result = ProveedoresDB.query \
-        .with_entities(ProveedoresDB.id_proveedor,ProveedoresDB.nombre,ProveedoresDB.calle,ProveedoresDB.numero,
-            ProveedoresDB.cp,ProveedoresDB.colonia) \
-        .filter(ProveedoresDB.id_proveedor.like(id)).all()
+    result = IngredientesDB.query \
+        .with_entities(IngredientesDB.id_ingrediente,IngredientesDB.nombre,IngredientesDB.unidad,IngredientesDB.proveedor) \
+        .filter(IngredientesDB.nombre.like(id)).all()
         
     context={
         'user_form':user_form,
@@ -111,18 +110,16 @@ def actualizar():
     
     id = request.form.get('id')
     nombre=request.form.get('nombre')
-    calle=request.form.get('calle')
-    numero=request.form.get('numero')
-    cp=request.form.get('cp')
-    colonia=request.form.get('colonia')
+    cantidad=request.form.get('cantidad')
+    unidad=request.form.get('unidad')
+    proveedor=request.form.get('proveedor')
     
     #aCTUALIZAR
-    proveedor = ProveedoresDB.query.filter_by(id_proveedor=id).first()
-    proveedor.nombre = nombre
-    proveedor.calle = calle
-    proveedor.numero = numero
-    proveedor.cp = cp
-    proveedor.colonia = colonia
+    insumo = IngredientesDB.query.filter_by(id_ingrediente=id).first()
+    insumo.nombre = nombre
+    insumo.unidad = unidad
+    insumo.cantidad = cantidad
+    insumo.proveedor = proveedor
     
     db.session.commit()
     flash("datos actualizados")
