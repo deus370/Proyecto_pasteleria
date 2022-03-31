@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Actualziar Producto</h3>
+    <div class="box">
+        <form method="POST" action="./actualizar">
+            <form method="POST" action="./eliminar">
+            {{ user_form.csrf_token }}
+            {% for i in res %}
+            <div class="field">
+                <div class="control">
+                    <input value="{{i.id_ingrediente}}"  type="hidden" name="id">
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" value="{{i.nombre}}"  type="text" name="nombre" placeholder="nombre" autofocus="">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" value="{{i.cantidad}}" name="cantidad" type="text" placeholder="Calle" autofocus="">
+                    
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" value="{{i.unidad}}" name="unidad" type="number" placeholder="Numero" autofocus="">
+                    
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" value="{{i.id_proveedor}}" name="cp" type="number" placeholder="Codigo Postal" autofocus="">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" value="{{i.colonia}}" name="colonia" type="text" placeholder="colonia" autofocus="">
+                    
+                </div>
+            </div>
+
+            <button class="button is-block is-info is-large is-fullwidth">Actualizar</button>
+            {% endfor%}
+        </form>
+    </div>
+</div>
+{% endblock %}

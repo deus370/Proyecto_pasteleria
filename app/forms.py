@@ -35,5 +35,6 @@ class insumoForm(FlaskForm):
     unidad = SelectField('Unidad',
                          choices=[('Lt', 'Litros'), ('Kg', 'Kilogramos')])
     proveedor=SelectField('Proveedor',coerce=int)
+    submit=SubmitField('Guardar')
 
     

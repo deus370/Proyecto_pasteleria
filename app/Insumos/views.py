@@ -43,7 +43,6 @@ def Formulario():
         db.session.commit()
         
         flash("Datos guardados")
-    
         return redirect(url_for('insumo.cargarTabla'))
 
     return render_template('insumosFormulario.html',**context)
