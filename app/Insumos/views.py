@@ -107,6 +107,11 @@ def cargarActualizar():
 @Insumo.route("/actualizar",methods=['GET','POST'])
 def actualizar():
     
+    user_form = insumoForm()
+    
+    #Llenamos el select
+    user_form.proveedor.choices=[(i.id_proveedor,i.nombre) for i in proveedores]
+    
     id = request.form.get('id')
     nombre=request.form.get('nombre')
     cantidad=request.form.get('cantidad')

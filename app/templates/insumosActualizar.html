@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
+{% from "_macros.html" import render_field %}
 <div class="column is-4 is-offset-4">
     <h3 class="title">Actualziar Producto</h3>
     <div class="box">
@@ -45,6 +46,8 @@
                     
                 </div>
             </div>
+
+            {{render_field(user_form.proveedor)}}
 
             <button class="button is-block is-info is-large is-fullwidth">Actualizar</button>
             {% endfor%}
