@@ -2,7 +2,7 @@ from email import message
 from subprocess import CalledProcessError
 from flask_wtf import FlaskForm
 from wtforms import StringField,SubmitField, IntegerField, RadioField
-from wtforms.fields import PasswordField,StringField,IntegerField,SelectField
+from wtforms.fields import PasswordField,StringField,IntegerField,SelectField,DecimalField
 from wtforms import validators
 
 class proveedoresForm(FlaskForm):
@@ -35,6 +35,7 @@ class insumoForm(FlaskForm):
     unidad = SelectField('Unidad',
                          choices=[('Lt', 'Litros'), ('Kg', 'Kilogramos')])
     proveedor=SelectField('Proveedor',coerce=int)
+    busqueda=StringField('Busqueda')
     submit=SubmitField('Guardar')
 
     

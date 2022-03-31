@@ -2,6 +2,7 @@ from . import db
 from flask_sqlalchemy import SQLAlchemy
 #Importamos las clases UserMixin y RoleMixin de flask_security
 from flask_security import UserMixin, RoleMixin
+from sqlalchemy.dialects.mysql import DOUBLE
 
 users_roles = db.Table('users_roles',
     db.Column('userId', db.Integer, db.ForeignKey('user.id')),
@@ -55,7 +56,7 @@ class IngredientesDB(db.Model):
     __tablename__ = 'Ingrediente'
     id_ingrediente = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
-    Cantidad= db.Column(db.Double(100), nullable=False)
+    cantidad= db.Column(db.Float, nullable=False)
     unidad=db.Column(db.String, nullable=False)
     proveedor=db.Column(db.Integer, nullable=False)
    

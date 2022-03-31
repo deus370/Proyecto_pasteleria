@@ -19,6 +19,9 @@ def create_app():
     from .Proveedor.views import Proveedor
     app.register_blueprint(Proveedor)
     
+    from .Insumos.views import Insumo
+    app.register_blueprint(Insumo)
+    
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.urandom(24)
     #Definimos la ruta a la BD: mysql://user:password@localhost/bd'
