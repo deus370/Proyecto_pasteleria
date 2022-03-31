@@ -58,6 +58,16 @@ class IngredientesDB(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     cantidad= db.Column(db.Float, nullable=False)
     unidad=db.Column(db.String, nullable=False)
-    proveedor=db.Column(db.Integer, nullable=False)
+    proveedor=db.Column(db.Integer)
+    
+class RecetasDB(db.Model):
+    """Ingredientes account model"""
+    
+    __tablename__ = 'Receta'
+    id_receta = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    cantidad= db.Column(db.Float, nullable=False)
+    ingrediente=db.Column(db.Integer)
+    
    
     

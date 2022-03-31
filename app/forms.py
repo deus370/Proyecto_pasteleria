@@ -38,4 +38,15 @@ class insumoForm(FlaskForm):
     busqueda=StringField('Busqueda')
     submit=SubmitField('Guardar')
 
+
+class RecetaForm(FlaskForm):
+    nombre = StringField('Nombre',
+                         [validators.DataRequired(message='Ingrese un datos'),
+                          validators.length(min=5, message='Inrese un valor valido')])
+    cantidad = DecimalField('Cantidad',
+                            [validators.DataRequired(message='Ingrese un valor'),
+                             validators.number_range(max=100)])
+    ingrediente=SelectField('Ingrediente',coerce=int)
+    busqueda=StringField('Busqueda')
+    submit=SubmitField('Guardar')
     
