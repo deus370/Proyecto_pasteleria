@@ -54,7 +54,7 @@ def Formulario():
 
 @Insumo.route('/cargarTabla',methods=['GET','POST'])
 def cargarTabla():    
-    result = IngredientesDB.query.filter(IngredientesDB.estatus==1).all()
+    result = IngredientesDB.query.filter(IngredientesDB.estatus!=0,).all()
     user_form = insumoForm()
     proveedores=[]
     
@@ -81,7 +81,7 @@ def cargarTabla():
         
         result = IngredientesDB.query \
         .with_entities(IngredientesDB.id_ingrediente,IngredientesDB.nombre,IngredientesDB.cantidad,IngredientesDB.unidad,IngredientesDB.proveedor) \
-        .filter(IngredientesDB.estatus==1,IngredientesDB.nombre.like(busqueda)).all()
+        .filter(IngredientesDB.estatus!=0,IngredientesDB.nombre.like(busqueda)).all()
         
         
         for i in result:
