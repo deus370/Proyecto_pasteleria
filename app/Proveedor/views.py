@@ -15,18 +15,13 @@ from flask_security.decorators import roles_required
 from ..forms import proveedoresForm
 from ..Proveedor import Proveedor
 
-
-
-
 @Proveedor.route('/Formulario',methods=['GET','POST'])
-def Formulario():
-    
+def Formulario():    
     user_form = proveedoresForm()
     
     context={
         'user_form':user_form
     }
-    
     
     if user_form.is_submitted():
         n=str(user_form.nombre.data)
@@ -43,8 +38,7 @@ def Formulario():
         
         flash("Datos guardados")
         return redirect(url_for('proveedor.cargarTabla'))
-
-    return render_template('proveedoresFormulario.html',**context)
+    return render_template('/Proveedor/proveedoresFormulario.html',**context)
 
 
 @Proveedor.route('/cargarTabla',methods=['GET','POST'])
@@ -71,10 +65,8 @@ def cargarTabla():
         'user_form':user_form,
         'res':result
         }
-        
-        return render_template('tablaProveedor.html',**context)
-
-    return render_template('tablaProveedor.html',**context)
+        return render_template('/Proveedor/tablaProveedor.html',**context)
+    return render_template('/Proveedor/tablaProveedor.html',**context)
 
 @Proveedor.route("/eliminar",methods=['GET','POST'])
 def eliminar():
@@ -107,7 +99,7 @@ def cargarActualizar():
         'res':result
     }
         
-    return render_template('proveedoresActualizar.html',**context)
+    return render_template('/Proveedor/proveedoresActualizar.html',**context)
 
 
 @Proveedor.route("/actualizar",methods=['GET','POST'])
