@@ -6,12 +6,17 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 #Importamos el método login_required de flask_security
 from flask_security import login_required
-#Importamos el modelo del usuario
+#Importamos el modelo del 
+# 
 from ..modelos import ProveedoresDB
+
+
 #Importamoes el objeto de la BD y userDataStore desde __init__
 from .. import db
 from sqlalchemy import insert,Column,Text,and_
 from flask_security.decorators import roles_required
+
+
 from ..forms import proveedoresForm
 from ..Proveedor import Proveedor
 
@@ -32,7 +37,9 @@ def Formulario():
         
         
         proveedor = ProveedoresDB(nombre=n,calle=c,numero=nu,cp=cp,colonia=colonia,estatus=1)
-        print(proveedor)
+        
+        
+        
         db.session.add(proveedor)   
         db.session.commit()
         

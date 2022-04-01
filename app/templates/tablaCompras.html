@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+{% extends 'layout1.html' %}
 
 {% block content %}
 {% from "_macros.html" import render_field %}
@@ -33,11 +33,12 @@
                 <tr class="tr-head">
                     <th>id_pedido</th>
                     <th>Fecha Compra</th>
-                    <th>Costo</th>
-                    <th>Cantidad</th>
+                    <th>Costo (Lt, Kg)</th>
+                    <th>Cantidad (Lt, Kg)</th>
                     <th>Proveedor</th>
                     <th>Ingrediente</th>
-                    <th>Total Compra</th> 
+                    <th>Total Compra</th>
+                    <th>Acciones</th>
 
                 </tr>
                 {% for i in range(aux) %}
@@ -49,7 +50,18 @@
                     <td>{{res[i]['cantidad']}}</td>
                     <td>{{proveedores[i]}}</td>
                     <td>{{ingredientes[i]}}</td>
-                    <td>{{res[i]['Total']}}</td>
+                    <td>{{res[i]['total']}}</td>
+                    <td>
+                        <div class="col-3">
+                            <form method="POST" action="./cancelar">
+                            {{ user_form.csrf_token }}
+                            <input type="hidden" value="{{ csrf_token }})">
+                                <input type="hidden" value="{{res[i].id_pedido}}" name="id">
+                                <input type="submit"  class="btn-danger" value="Cancelar">
+                            </form>
+                        </div>
+                    </td>
+                    
 
                 </tr>
                 {% endfor %}

@@ -1,11 +1,14 @@
 #Importamos los módulos a usar de flask
 from flask import Blueprint, render_template, redirect, url_for, request, flash,Flask
 import sqlalchemy
+
 from flask import request
 from werkzeug.security import generate_password_hash, check_password_hash
 
 #Importamos el método login_required de flask_security
 from flask_security import login_required
+
+from app import Proveedor
 #Importamos el modelo del usuario
 from ..modelos import ComprasDB,ProveedoresDB, IngredientesDB
 #Importamoes el objeto de la BD y userDataStore desde __init__
@@ -27,14 +30,17 @@ def Formulario():
     context={
         'user_form':user_form
     }
-    
+
     if user_form.is_submitted():
         c=float(user_form.costo.data)
         i=int(user_form.ingrediente.data)
         can=str(user_form.cantidad.data)
         
+        p=IngredientesDB.query \
+            .with_entities(IngredientesDB.proveedor) \
+            .filter(IngredientesDB.id_ingrediente.like(i)).all()
         
-        compra= ComprasDB(costo=c,ingrediente=i,cantidad=can)
+        compra= ComprasDB(costo=c,ingrediente=i,cantidad=can,estatus=1,proveedor=p[0].proveedor)
         
         db.session.add(compra)   
         db.session.commit()
@@ -47,15 +53,24 @@ def Formulario():
 
 @Compra.route('/cargarTabla',methods=['GET','POST'])
 def cargarTabla():    
-    result = IngredientesDB.query.all()
-    user_form = IngredientesForm()
+    result = ComprasDB.query.filter(ComprasDB.estatus==1).all()
+    user_form = ComprasForm()
+    ingredientes=[]
     proveedores=[]
     
+    #Cargar nombre del proveedor
     for i in result:
             result1 = ProveedoresDB.query \
             .with_entities(ProveedoresDB.nombre) \
             .filter(ProveedoresDB.id_proveedor.like(i.proveedor)).all()
             proveedores.append(result1[0].nombre)
+    
+    #Cargar nombre del Ingrediente
+    for i in result:
+            result1 = IngredientesDB.query \
+            .with_entities(IngredientesDB.nombre) \
+            .filter(IngredientesDB.id_ingrediente.like(i.ingrediente)).all()
+            ingredientes.append(result1[0].nombre)
         
     aux=len(proveedores)
     
@@ -63,25 +78,33 @@ def cargarTabla():
         'user_form':user_form,
         'res':result,
         'proveedores':proveedores,
+        'ingredientes':ingredientes,
         'aux':aux
     }
     
     if request.method=="POST":
-        busqueda=request.form.get('busqueda')+'%'
+        busqueda=str(request.form.get('busqueda')+'%')
         proveedores=[]
-        
+        ingredientes=[]
         print(busqueda)
         
-        result = IngredientesDB.query \
-        .with_entities(IngredientesDB.id_ingrediente,IngredientesDB.nombre,IngredientesDB.cantidad,IngredientesDB.unidad,IngredientesDB.proveedor) \
-        .filter(IngredientesDB.nombre.like(busqueda)).all()
+        result = ComprasDB.query \
+        .with_entities(ComprasDB.id_pedido,ComprasDB.fecha_ingreso,ComprasDB.costo,ComprasDB.cantidad,ComprasDB.total,ComprasDB.ingrediente,ComprasDB.proveedor) \
+        .filter(ComprasDB.estatus==1,ComprasDB.fecha_ingreso.like(busqueda)).all()
         
-        
+        #Cargar nombre del proveedor
         for i in result:
-            result1 = ProveedoresDB.query \
-            .with_entities(ProveedoresDB.nombre) \
-            .filter(ProveedoresDB.id_proveedor.like(i.proveedor)).all()
-            proveedores.append(result1[0].nombre)
+                result1 = ProveedoresDB.query \
+                .with_entities(ProveedoresDB.nombre) \
+                .filter(ProveedoresDB.id_proveedor.like(i.proveedor)).all()
+                proveedores.append(result1[0].nombre)
+        
+        #Cargar nombre del Ingrediente
+        for i in result:
+                result1 = IngredientesDB.query \
+                .with_entities(IngredientesDB.nombre) \
+                .filter(IngredientesDB.id_ingrediente.like(i.ingrediente)).all()
+                ingredientes.append(result1[0].nombre)
 
         aux=len(proveedores)
 
@@ -89,58 +112,32 @@ def cargarTabla():
         'user_form':user_form,
         'res':result,
         'proveedores':proveedores,
+        'ingredientes':ingredientes,
         'aux':aux
         }
         
-        return render_template('tablaInsumo.html',**context)
+        return render_template('tablaCompras.html',**context)
 
-    return render_template('tablaInsumo.html',**context)
-
-
-@Compra.route("/cargarActualizar",methods=['GET','POST'])
-def cargarActualizar():
-    proveedores  = ProveedoresDB.query.all()
-    ingredientes  = InsumoDB.query.all()
-    user_form = insumoForm()
-    
-    #Llenamos el select
-    user_form.proveedor.choices=[(i.id_proveedor,i.nombre) for i in proveedores]
-    
-    id = request.form.get('id')
-    
-    
-    result = IngredientesDB.query \
-        .with_entities(IngredientesDB.id_ingrediente,IngredientesDB.nombre,IngredientesDB.cantidad,IngredientesDB.unidad,IngredientesDB.proveedor) \
-        .filter(IngredientesDB.id_ingrediente.like(id)).all()
-        
-    context={
-        'user_form':user_form,
-        'res':result
-    }
-        
-    return render_template('insumosActualizar.html',**context)
+    return render_template('tablaCompras.html',**context)
 
 
-@Compra.route("/actualizar",methods=['GET','POST'])
+
+
+@Compra.route("/cancelar",methods=['GET','POST'])
 def actualizar():
+    print('cancelar')
     
-    user_form = insumoForm()
+    user_form = ComprasForm()
     
     id = request.form.get('id')
-    nombre=request.form.get('nombre')
-    cantidad=request.form.get('cantidad')
-    unidad=request.form.get('unidad')
-    proveedor=request.form.get('proveedor')
     
     #aCTUALIZAR
-    insumo = IngredientesDB.query.filter_by(id_ingrediente=id).first()
-    insumo.nombre = nombre
-    insumo.unidad = unidad
-    insumo.cantidad = cantidad
-    insumo.proveedor = proveedor
+    compra = ComprasDB.query.filter_by(id_pedido=id).first()
+    compra.estatus =0 
+    
     
     db.session.commit()
     flash("datos actualizados")
-    return redirect(url_for('insumo.cargarTabla'))
+    return redirect(url_for('compra.cargarTabla'))
 
 
