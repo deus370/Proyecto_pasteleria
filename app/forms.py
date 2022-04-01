@@ -28,7 +28,7 @@ class proveedoresForm(FlaskForm):
 class insumoForm(FlaskForm):
     nombre = StringField('Nombre',
                          [validators.DataRequired(message='Ingrese un datos'),
-                          validators.length(min=5, message='Inrese un valor valido')])
+                          validators.length(min=3, message='Inrese un valor valido')])
     Cantidad = DecimalField('Cantidad',
                             [validators.DataRequired(message='Ingrese un valor'),
                              validators.number_range(max=100)])
