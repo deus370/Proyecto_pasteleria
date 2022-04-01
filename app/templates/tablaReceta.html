@@ -31,29 +31,29 @@
         <div class="col-8">
             <table class="table">
                 <tr class="tr-head">
-                    <th>id_ingrediente</th>
+                    <th>id_Receta</th>
                     <th>Nombre</th>
+                    <th>Sabor</th>
                     <th>Cantidad</th>
-                    <th>Unidad</th>
-                    <th>id_proveedor</th>
-                    <th>Proveedor</th>
+                    <th>Cubierta</th>
                 </tr>
                 {% for i in range(aux) %}
                 <tr class="tr-head">
                     
-                    <td>{{res[i].id_ingrediente}}</td>
+                    <td>{{res[i].id_receta}}</td>
                     <td>{{res[i]['nombre']}}</td>
+                    <td>{{ingrediente[i]}}</td>
                     <td>{{res[i]['cantidad']}}</td>
-                    <td>{{res[i]['unidad']}}</td>
-                    <td>{{res[i]['proveedor']}}</td>
-                    <td>{{proveedores[i]}}</td>
+                    <td>{{cubierta[i]}}</td>
+                    
+                    
                     <td> 
                         <div class="row">
                             <div class="col-3">
                                 <form method="POST" action="./cargarActualizar">
                                 {{ user_form.csrf_token }}
                                 <input type="hidden" value="{{ csrf_token }})">
-                                    <input type="hidden" value="{{res[i].id_ingrediente}}" name="id">
+                                    <input type="hidden" value="{{res[i].id_receta}}" name="id">
                                     <input type="submit" class="btn-primary" value="Update">
                                 </form>
                             </div>
@@ -62,7 +62,7 @@
                                 <form method="POST" action="./eliminar">
                                 {{ user_form.csrf_token }}
                                 <input type="hidden" value="{{ csrf_token }})">
-                                    <input type="hidden" value="{{res[i].id_ingrediente}}" name="id">
+                                    <input type="hidden" value="{{res[i].id_receta}}" name="id">
                                     <input type="submit"  class="btn-primary" value="Eliminar">
                                 </form>
                             </div>

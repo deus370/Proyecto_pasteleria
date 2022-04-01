@@ -15,17 +15,17 @@ from flask_security.decorators import roles_required
 from ..forms import RecetaForm
 from ..Receta import Receta
 
-
-
-
 @Receta.route('/Formulario',methods=['GET','POST'])
 def Formulario():
     #Cargar los provedores y colocarlos en el select
-    ingredientes  = IngredientesDB.query.all()
+    ingredientes  = IngredientesDB.query.filter(IngredientesDB.estatus==1).all()
+    cubiertas  = IngredientesDB.query.filter(IngredientesDB.estatus==2).all()
     user_form = RecetaForm()
     
     #Llenamos el select
     user_form.ingrediente.choices=[(i.id_ingrediente,i.nombre) for i in ingredientes]
+    #Cubierta
+    user_form.cubierta.choices=[(i.id_ingrediente,i.nombre) for i in cubiertas]
 
     context={
         'user_form':user_form
@@ -34,10 +34,12 @@ def Formulario():
     if user_form.is_submitted():
         n=str(user_form.nombre.data)
         c=float(user_form.cantidad.data)
-        i=str(user_form.ingrediente.data)
+        i=user_form.ingrediente.data
+        cu=user_form.cubierta.data
         
         
-        receta= RecetasDB(nombre=n,cantidad=c,ingrediente=i)
+        
+        receta= RecetasDB(nombre=n,cantidad=c,ingrediente=i,estatus=1,cubierta=cu)
         
         db.session.add(receta)   
         db.session.commit()
@@ -45,41 +47,88 @@ def Formulario():
         flash("Datos guardados")
         return redirect(url_for('receta.cargarTabla'))
 
-    return render_template('recetasFormulario.html',**context)
+    return render_template('/recetas/recetasFormulario.html',**context)
 
 
 @Receta.route('/cargarTabla',methods=['GET','POST'])
 def cargarTabla():    
-    result = RecetasDB.query.all()
+    result = RecetasDB.query.filter(RecetasDB.estatus==1).all()
     user_form = RecetaForm()
+    Ingredientes=[]
+    cubiertas=[]
+    
     
     for i in result:
-        print(i.proveedor)
+            result1 = IngredientesDB.query \
+            .with_entities(IngredientesDB.nombre) \
+            .filter(IngredientesDB.id_ingrediente.like(i.ingrediente)).all()
+            Ingredientes.append(result1[0].nombre)
     
+    for i in result:
+            result1 = IngredientesDB.query \
+            .with_entities(IngredientesDB.nombre) \
+            .filter(IngredientesDB.id_ingrediente.like(i.cubierta)).all()
+            cubiertas.append(result1[0].nombre)
+            
+    aux=len(Ingredientes)
     
     context={
         'user_form':user_form,
-        'res':result
+        'res':result,
+        'aux':aux,
+        'ingrediente':Ingredientes,
+        'cubierta':cubiertas
     }
     
     if request.method=="POST":
         busqueda=request.form.get('busqueda')+'%'
         
+<<<<<<< HEAD
+        result = RecetasDB.query \
+        .with_entities(RecetasDB.id_receta,RecetasDB.nombre,RecetasDB.cantidad,RecetasDB.ingrediente,RecetasDB.cubierta) \
+        .filter(RecetasDB.nombre.like(busqueda)).all()
+        
+        
+        Ingredientes=[]
+        cubiertas=[]
+        
+        for i in result:
+                result1 = IngredientesDB.query \
+                .with_entities(IngredientesDB.nombre) \
+                .filter(IngredientesDB.id_ingrediente.like(i.ingrediente)).all()
+                Ingredientes.append(result1[0].nombre)
+        
+        for i in result:
+                result1 = IngredientesDB.query \
+                .with_entities(IngredientesDB.nombre) \
+                .filter(IngredientesDB.id_ingrediente.like(i.cubierta)).all()
+                cubiertas.append(result1[0].nombre)
+                
+        aux=len(Ingredientes)
+        
+=======
         result = IngredientesDB.query \
         .with_entities(IngredientesDB.id_ingrediente,IngredientesDB.nombre,IngredientesDB.cantidad,IngredientesDB.unidad,IngredientesDB.proveedor) \
         .filter(IngredientesDB.nombre.like(busqueda)).all()
 
-
-
-
+>>>>>>> cesar
         context={
-        'user_form':user_form,
-        'res':result
+            'user_form':user_form,
+            'res':result,
+            'aux':aux,
+            'ingrediente':Ingredientes,
+            'cubierta':cubiertas
         }
         
-        return render_template('tablaInsumo.html',**context)
+<<<<<<< HEAD
+        return render_template('tablaReceta.html',**context)
 
-    return render_template('tablaInsumo.html',**context)
+    return render_template('tablaReceta.html',**context)
+=======
+        return render_template('/receta/tablaInsumo.html',**context)
+
+    return render_template('/receta/tablaInsumo.html',**context)
+>>>>>>> cesar
 
 @Receta.route("/eliminar",methods=['GET','POST'])
 def eliminar():
@@ -87,34 +136,40 @@ def eliminar():
     print(id)
     
     insumo = RecetasDB.query.filter_by(id_Receta=id).first()
-    db.session.delete(insumo)
+    insumo.estatus=0
     db.session.commit()
     
     flash("datos Eliminados")
-    return redirect(url_for('insumo.cargarTabla'))
+    return redirect(url_for('receta.cargarTabla'))
 
 
 @Receta.route("/cargarActualizar",methods=['GET','POST'])
 def cargarActualizar():
-    ingredientes  = IngredientesDB.query.all()
+    ingredientes  = IngredientesDB.query.filter(IngredientesDB.estatus==1).all()
+    cubiertas  = IngredientesDB.query.filter(IngredientesDB.estatus==2).all()
     user_form = RecetaForm()
     
     #Llenamos el select
-    user_form.proveedor.choices=[(i.id_ingrediente,i.nombre) for i in ingredientes]
+    user_form.ingrediente.choices=[(i.id_ingrediente,i.nombre) for i in ingredientes]
+    user_form.cubierta.choices=[(i.id_ingrediente,i.nombre) for i in cubiertas]
     
     id = request.form.get('id')
     
     
-    result = IngredientesDB.query \
-        .with_entities(IngredientesDB.id_ingrediente,IngredientesDB.nombre,IngredientesDB.cantidad,IngredientesDB.unidad,IngredientesDB.proveedor) \
-        .filter(IngredientesDB.id_ingrediente.like(id)).all()
+    result = RecetasDB.query \
+        .with_entities(RecetasDB.id_receta,RecetasDB.nombre,RecetasDB.cantidad,RecetasDB.ingrediente,RecetasDB.cubierta) \
+        .filter(RecetasDB.id_receta.like(id)).all()
         
     context={
         'user_form':user_form,
         'res':result
     }
+<<<<<<< HEAD
         
-    return render_template('insumosActualizar.html',**context)
+    return render_template('recetasActualizar.html',**context)
+=======
+    return render_template('/receta/insumosActualizar.html',**context)
+>>>>>>> cesar
 
 
 @Receta.route("/actualizar",methods=['GET','POST'])
@@ -125,18 +180,18 @@ def actualizar():
     id = request.form.get('id')
     nombre=request.form.get('nombre')
     cantidad=request.form.get('cantidad')
-    unidad=request.form.get('unidad')
-    proveedor=request.form.get('proveedor')
+    cubierta=request.form.get('cubierta')
+    ingrediente=request.form.get('ingrediente')
     
     #aCTUALIZAR
-    insumo = IngredientesDB.query.filter_by(id_ingrediente=id).first()
+    insumo = RecetasDB.query.filter_by(id_receta=id).first()
     insumo.nombre = nombre
-    insumo.unidad = unidad
     insumo.cantidad = cantidad
-    insumo.proveedor = proveedor
+    insumo.ingrediente = ingrediente
+    insumo.cubierta = cubierta
     
     db.session.commit()
     flash("datos actualizados")
-    return redirect(url_for('insumo.cargarTabla'))
+    return redirect(url_for('receta.cargarTabla'))
 
 

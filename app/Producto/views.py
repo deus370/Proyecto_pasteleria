@@ -13,9 +13,12 @@ from .. import db
 from sqlalchemy import insert,Column,Text
 from flask_security.decorators import roles_required
 from ..forms import insumoForm
-from ..Insumos import Insumo
+from ..Producto import Producto
 
-@Insumo.route('/Formulario',methods=['GET','POST'])
+
+
+
+@Producto.route('/Formulario',methods=['GET','POST'])
 def Formulario():
     #Cargar los provedores y colocarlos en el select
     proveedores  = ProveedoresDB.query.filter(ProveedoresDB.estatus==1).all()
@@ -49,12 +52,12 @@ def Formulario():
         flash("Datos guardados")
         return redirect(url_for('insumo.cargarTabla'))
 
-    return render_template('/insumos/insumosFormulario.html',**context)
+    return render_template('insumosFormulario.html',**context)
 
 
-@Insumo.route('/cargarTabla',methods=['GET','POST'])
+@Producto.route('/cargarTabla',methods=['GET','POST'])
 def cargarTabla():    
-    result = IngredientesDB.query.filter(IngredientesDB.estatus!=0,).all()
+    result = IngredientesDB.query.filter(IngredientesDB.estatus==1).all()
     user_form = insumoForm()
     proveedores=[]
     
@@ -81,7 +84,7 @@ def cargarTabla():
         
         result = IngredientesDB.query \
         .with_entities(IngredientesDB.id_ingrediente,IngredientesDB.nombre,IngredientesDB.cantidad,IngredientesDB.unidad,IngredientesDB.proveedor) \
-        .filter(IngredientesDB.estatus!=0,IngredientesDB.nombre.like(busqueda)).all()
+        .filter(IngredientesDB.estatus==1,IngredientesDB.nombre.like(busqueda)).all()
         
         
         for i in result:
@@ -99,11 +102,11 @@ def cargarTabla():
         'aux':aux
         }
         
-        return render_template('/insumos/tablaInsumo.html',**context)
+        return render_template('tablaInsumo.html',**context)
 
-    return render_template('/insumos/tablaInsumo.html',**context)
+    return render_template('tablaInsumo.html',**context)
 
-@Insumo.route("/eliminar",methods=['GET','POST'])
+@Producto.route("/eliminar",methods=['GET','POST'])
 def eliminar():
     id = request.form.get('id')
     print(id)
@@ -116,7 +119,7 @@ def eliminar():
     return redirect(url_for('insumo.cargarTabla'))
 
 
-@Insumo.route("/cargarActualizar",methods=['GET','POST'])
+@Producto.route("/cargarActualizar",methods=['GET','POST'])
 def cargarActualizar():
     proveedores  = ProveedoresDB.query.filter(ProveedoresDB.estatus==1).all()
     user_form = insumoForm()
@@ -136,10 +139,10 @@ def cargarActualizar():
         'res':result
     }
         
-    return render_template('/insumos/insumosActualizar.html',**context)
+    return render_template('insumosActualizar.html',**context)
 
 
-@Insumo.route("/actualizar",methods=['GET','POST'])
+@Producto.route("/actualizar",methods=['GET','POST'])
 def actualizar():
     
     user_form = insumoForm()

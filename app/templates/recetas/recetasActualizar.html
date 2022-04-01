@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "layout1.html" %}
 
 {% block content %}
 {% from "_macros.html" import render_field %}
@@ -27,9 +27,9 @@
                 </div>
             </div>
 
-            {{render_field(user_form.unidad)}}
+            {{render_field(user_form.ingrediente)}}
 
-            {{render_field(user_form.proveedor)}}
+            {{render_field(user_form.cubierta)}}
 
             <button class="button is-block is-info is-large is-fullwidth">Actualizar</button>
             {% endfor%}

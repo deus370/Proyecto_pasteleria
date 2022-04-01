@@ -28,12 +28,16 @@ class proveedoresForm(FlaskForm):
 class insumoForm(FlaskForm):
     nombre = StringField('Nombre',
                          [validators.DataRequired(message='Ingrese un datos'),
-                          validators.length(min=5, message='Inrese un valor valido')])
+                          validators.length(min=3, message='Inrese un valor valido')])
     Cantidad = DecimalField('Cantidad',
                             [validators.DataRequired(message='Ingrese un valor'),
                              validators.number_range(max=100)])
     unidad = SelectField('Unidad',
                          choices=[('Lt', 'Litros'), ('Kg', 'Kilogramos')])
+    
+    cubierta= RadioField('Cubierta',
+                         choices=[('1', 'Si'), ('2', 'No')])
+    
     proveedor=SelectField('Proveedor',coerce=int)
     busqueda=StringField('Busqueda')
     submit=SubmitField('Guardar')
@@ -47,6 +51,7 @@ class RecetaForm(FlaskForm):
                             [validators.DataRequired(message='Ingrese un valor'),
                              validators.number_range(max=100)])
     ingrediente=SelectField('Ingrediente',coerce=int)
+    cubierta=SelectField('Cubierta',coerce=int)
     busqueda=StringField('Busqueda')
     submit=SubmitField('Guardar')
     
@@ -63,4 +68,7 @@ class ComprasForm(FlaskForm):
     busqueda=StringField('Busqueda')
     submit=SubmitField('Guardar')    
 
+<<<<<<< HEAD
+=======
     
+>>>>>>> 002f3dc208a38aa70feef7e7e1d4fc107f1fec17

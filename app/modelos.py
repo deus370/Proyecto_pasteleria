@@ -1,3 +1,4 @@
+from email.policy import default
 from . import db
 from flask_sqlalchemy import SQLAlchemy
 #Importamos las clases UserMixin y RoleMixin de flask_security
@@ -58,23 +59,22 @@ class IngredientesDB(db.Model):
     id_ingrediente = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
     cantidad= db.Column(db.Float, nullable=False)
-    unidad=db.Column(db.String, nullable=False)
-    estatus=db.Column(db.Integer, nullable=False)
-    proveedor=db.Column(db.Integer)
+    unidad=db.Column(db.String, nullable=True)
+    estatus=db.Column(db.Integer, nullable=True)
+    proveedor=db.Column(db.Integer, nullable=True)
     
     
 class ComprasDB(db.Model):
     """Compras account model"""
-    
     __tablename__ = 'proveedor_ingrediente'
     id_pedido = db.Column(db.Integer, primary_key=True)
-    fecha_ingreso= db.Column(db.Date, nullable=False)
-    costo = db.Column(db.String(100), nullable=False)
-    cantidad= db.Column(db.Float, nullable=False)
-    total= db.Column(db.Float, nullable=False)
-    estatus=db.Column(db.Integer, nullable=False)
-    proveedor=db.Column(db.Integer)
-    ingrediente=db.Column(db.Integer)
+    fecha_ingreso= db.Column(db.Date, nullable=True)
+    costo = db.Column(db.String(100), nullable=True)
+    cantidad= db.Column(db.Float, nullable=True)
+    total= db.Column(db.Float, nullable=True)
+    estatus=db.Column(db.Integer, nullable=True)
+    ingrediente=db.Column(db.Integer, nullable=True)
+    proveedor=db.Column(db.Integer, nullable=True)
     
     
 class RecetasDB(db.Model):
@@ -85,6 +85,7 @@ class RecetasDB(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     cantidad= db.Column(db.Float, nullable=False)
     estatus=db.Column(db.Integer, nullable=False)
+    cubierta =db.Column(db.Integer)
     ingrediente=db.Column(db.Integer)
     
    

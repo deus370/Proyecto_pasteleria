@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "layout1.html" %}
 
 {% block content %}
 {% from "_macros.html" import render_field %}
@@ -11,6 +11,7 @@
             {{render_field(user_form.nombre)}}
             {{render_field(user_form.Cantidad)}}
             {{render_field(user_form.unidad)}}
+            {{render_field(user_form.cubierta)}}
             {{render_field(user_form.proveedor)}}
         </div>
     </div>

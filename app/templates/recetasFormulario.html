@@ -1,4 +1,4 @@
-{% extends "layout.html" %}
+{% extends "layout1.html" %}
 
 {% block content %}
 {% from "_macros.html" import render_field %}
@@ -9,9 +9,9 @@
     <div class="form-group row">
         <div class="col-sm-1-12">
             {{render_field(user_form.nombre)}}
-            {{render_field(user_form.Cantidad)}}
-            {{render_field(user_form.unidad)}}
-            {{render_field(user_form.proveedor)}}
+            {{render_field(user_form.cantidad)}}
+            {{render_field(user_form.ingrediente)}}
+            {{render_field(user_form.cubierta)}}
         </div>
     </div>
     <div class="form-group row">
