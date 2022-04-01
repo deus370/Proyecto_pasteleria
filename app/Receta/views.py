@@ -19,13 +19,11 @@ from ..Receta import Receta
 def Formulario():
     #Cargar los provedores y colocarlos en el select
     ingredientes  = IngredientesDB.query.filter(IngredientesDB.estatus==1).all()
-    cubiertas  = IngredientesDB.query.filter(IngredientesDB.estatus==2).all()
     user_form = RecetaForm()
     
     #Llenamos el select
     user_form.ingrediente.choices=[(i.id_ingrediente,i.nombre) for i in ingredientes]
-    #Cubierta
-    user_form.cubierta.choices=[(i.id_ingrediente,i.nombre) for i in cubiertas]
+    
 
     context={
         'user_form':user_form
@@ -35,11 +33,8 @@ def Formulario():
         n=str(user_form.nombre.data)
         c=float(user_form.cantidad.data)
         i=user_form.ingrediente.data
-        cu=user_form.cubierta.data
         
-        
-        
-        receta= RecetasDB(nombre=n,cantidad=c,ingrediente=i,estatus=1,cubierta=cu)
+        receta= RecetasDB(nombre=n,cantidad=c,ingrediente=i,estatus=1)
         
         db.session.add(receta)   
         db.session.commit()
@@ -84,7 +79,6 @@ def cargarTabla():
         
         
         Ingredientes=[]
-        cubiertas=[]
         
         for i in result:
                 result1 = IngredientesDB.query \
@@ -121,7 +115,7 @@ def eliminar():
 
 @Receta.route("/cargarActualizar",methods=['GET','POST'])
 def cargarActualizar():
-    ingredientes  = IngredientesDB.query.filter(IngredientesDB.estatus==1).all()
+    ingredientes  = IngredientesDB.query.filter(IngredientesDB.estatus!=0).all()
     user_form = RecetaForm()
     
     #Llenamos el select

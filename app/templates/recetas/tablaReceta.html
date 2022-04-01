@@ -33,6 +33,7 @@
                 <tr class="tr-head">
                     <th>id_Receta</th>
                     <th>Nombre</th>
+                    <th>Ingredientes</th>
                     <th>Sabor</th>
                     <th>Cantidad</th>
                 </tr>
@@ -41,13 +42,22 @@
                     
                     <td>{{res[i].id_receta}}</td>
                     <td>{{res[i]['nombre']}}</td>
+                    
+                    <td>1 huevo
+                        70 gr de azúcar <br>
+                        1 pizca de sal <br>
+                        60 gr de harina <br>
+                        60 gr de mantequilla <br>
+                        4 gr de polvo para hornear <br> 
+                        1/2 cda de vainilla <br>
+                        40 gr de leche</td>
                     <td>{{ingrediente[i]}}</td>
                     <td>{{res[i]['cantidad']}}</td>
                     
                     
                     <td> 
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-6">
                                 <form method="POST" action="./cargarActualizar">
                                 {{ user_form.csrf_token }}
                                 <input type="hidden" value="{{ csrf_token }})">

@@ -44,7 +44,7 @@ class RecetaForm(FlaskForm):
     nombre = StringField('Nombre',
                          [validators.DataRequired(message='Ingrese un datos'),
                           validators.length(min=5, message='Inrese un valor valido')])
-    cantidad = DecimalField('Cantidad',
+    cantidad = DecimalField('Cantidad(n.o panquecitos)',
                             [validators.DataRequired(message='Ingrese un valor'),
                              validators.number_range(max=100)])
     ingrediente=SelectField('Ingrediente',coerce=int)
@@ -60,6 +60,28 @@ class ComprasForm(FlaskForm):
                             [validators.DataRequired(message='Ingrese un valor'),
                              validators.number_range(max=100,message="El valor debe ser menor a 100")])
     ingrediente=SelectField('Ingrediente',coerce=int)
+    
+    busqueda=StringField('Busqueda')
+    submit=SubmitField('Guardar')
+    
+    
+class ProductosForm(FlaskForm):
+    nombre = StringField('Nombre',
+                         [validators.DataRequired(message='Ingrese un datos'),
+                          validators.length(min=3, message='Inrese un valor valido')])
+    cantidad = DecimalField('Cantidad',
+                            [validators.DataRequired(message='Ingrese un valor'),
+                             validators.number_range(max=100)])
+    descripcion = StringField('Descripcion',
+                         [validators.DataRequired(message='Ingrese un datos'),
+                          validators.length(min=3, message='Inrese un valor valido')])
+    precio = DecimalField('Precio',
+                            [validators.DataRequired(message='Ingrese un valor'),
+                             validators.number_range(max=100)])
+    receta=SelectField('Receta',coerce=int)
+    
+    hornear=SelectField('Cantidad',
+                        choices=[(6,'Media Docena'),(12,'Docena')])
     
     busqueda=StringField('Busqueda')
     submit=SubmitField('Guardar')
