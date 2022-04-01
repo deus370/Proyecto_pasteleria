@@ -35,9 +35,6 @@ class insumoForm(FlaskForm):
     unidad = SelectField('Unidad',
                          choices=[('Lt', 'Litros'), ('Kg', 'Kilogramos')])
     
-    cubierta= RadioField('Cubierta',
-                         choices=[('1', 'Si'), ('2', 'No')])
-    
     proveedor=SelectField('Proveedor',coerce=int)
     busqueda=StringField('Busqueda')
     submit=SubmitField('Guardar')

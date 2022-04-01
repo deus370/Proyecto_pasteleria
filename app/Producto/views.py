@@ -152,13 +152,6 @@ def actualizar():
     cantidad=request.form.get('cantidad')
     unidad=request.form.get('unidad')
     proveedor=request.form.get('proveedor')
-    cu = int(request.form.get('cubierta'))
-    print(cu)
-    
-    e=1
-    if cu == 1:
-        e=2 
-        
         
     print(e)
     #aCTUALIZAR

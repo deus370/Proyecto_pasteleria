@@ -85,7 +85,6 @@ class RecetasDB(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     cantidad= db.Column(db.Float, nullable=False)
     estatus=db.Column(db.Integer, nullable=False)
-    cubierta =db.Column(db.Integer)
     ingrediente=db.Column(db.Integer)
     
    
