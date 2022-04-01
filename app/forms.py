@@ -69,3 +69,16 @@ class ComprasForm(FlaskForm):
     submit=SubmitField('Guardar')    
 
     
+class ProductosForm(FlaskForm):
+    nombre = StringField('Nombre',
+                         [validators.DataRequired(message='Ingrese un datos'),
+                          validators.length(min=5, message='Inrese un valor valido')])
+    cantidad = DecimalField('Cantidad',
+                            [validators.DataRequired(message='Ingrese un valor'),
+                             validators.number_range(max=100)])
+    descripcion=StringField('Descipcion',
+                         [validators.DataRequired(message='Ingrese un datos'),
+                          validators.length(min=5, message='Inrese un valor valido')])
+    cubierta=SelectField('Cubierta',coerce=int)
+    busqueda=StringField('Busqueda')
+    submit=SubmitField('Guardar')
