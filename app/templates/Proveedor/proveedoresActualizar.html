@@ -1,8 +1,13 @@
-{% extends "layout.html" %}
+{% extends "layout1.html" %}
 
 {% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <h1 class="text-center">Actualizar Proveedor</h1>
+    </div>
+</div>
 <div class="column is-4 is-offset-4">
-    <h3 class="title">Actualziar Producto</h3>
+    <h3 class="title">Actualizar Producto</h3>
     <div class="box">
         <form method="POST" action="./actualizar">
             {{ user_form.csrf_token }}

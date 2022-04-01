@@ -62,3 +62,5 @@ class ComprasForm(FlaskForm):
     
     busqueda=StringField('Busqueda')
     submit=SubmitField('Guardar')    
+
+    
