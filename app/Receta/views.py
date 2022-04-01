@@ -15,9 +15,6 @@ from flask_security.decorators import roles_required
 from ..forms import RecetaForm
 from ..Receta import Receta
 
-
-
-
 @Receta.route('/Formulario',methods=['GET','POST'])
 def Formulario():
     #Cargar los provedores y colocarlos en el select
@@ -50,7 +47,7 @@ def Formulario():
         flash("Datos guardados")
         return redirect(url_for('receta.cargarTabla'))
 
-    return render_template('recetasFormulario.html',**context)
+    return render_template('/recetas/recetasFormulario.html',**context)
 
 
 @Receta.route('/cargarTabla',methods=['GET','POST'])
@@ -116,9 +113,9 @@ def cargarTabla():
             'cubierta':cubiertas
         }
         
-        return render_template('tablaReceta.html',**context)
+        return render_template('/receta/tablaInsumo.html',**context)
 
-    return render_template('tablaReceta.html',**context)
+    return render_template('/receta/tablaInsumo.html',**context)
 
 @Receta.route("/eliminar",methods=['GET','POST'])
 def eliminar():
@@ -154,8 +151,7 @@ def cargarActualizar():
         'user_form':user_form,
         'res':result
     }
-        
-    return render_template('recetasActualizar.html',**context)
+    return render_template('/receta/insumosActualizar.html',**context)
 
 
 @Receta.route("/actualizar",methods=['GET','POST'])

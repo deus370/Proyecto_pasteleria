@@ -19,7 +19,7 @@
                     </form>
                 </div>
                 <div class="col-8 align-self-center text-center">
-                    <h1>Proveedores</h1>
+                    <h1>Insumos</h1>
                 </div>
                 <div class="col-1 align-self-center text-end">
                     <form action="./cargarTabla">
@@ -45,26 +45,25 @@
             <table class="table">
                 <tr class="tr-head">
                     <th>Nombre</th>
-                    <th>Calle</th>
-                    <th>Numero</th>
-                    <th>Codigo Postal</th>
-                    <th>Colonia</th>
+                    <th>Cantidad</th>
+                    <th>Unidad</th>
+                    <th>Proveedor</th>
                     <th>Acciones</th>
                 </tr>
-                {% for i in res %}
+                {% for i in range(aux) %}
                 <tr class="tr-head">
-                    <td>{{i['nombre']}}</td>
-                    <td>{{i['calle']}}</td>
-                    <td>{{i['numero']}}</td>
-                    <td>{{i['cp']}}</td>
-                    <td>{{i['colonia']}}</td>
+
+                    <td>{{res[i]['nombre']}}</td>
+                    <td>{{res[i]['cantidad']}}</td>
+                    <td>{{res[i]['unidad']}}</td>
+                    <td>{{proveedores[i]}}</td>
                     <td>
                         <div class="row">
                             <div class="col-6">
                                 <form method="POST" action="./cargarActualizar">
                                     {{ user_form.csrf_token }}
                                     <input type="hidden" value="{{ csrf_token }})">
-                                    <input type="hidden" value="{{i.id_proveedor}}" name="id">
+                                    <input type="hidden" value="{{res[i].id_ingrediente}}" name="id">
                                     <input type="submit" class="btn btn-warning" value="Actualizar">
                                 </form>
                             </div>
@@ -73,16 +72,23 @@
                                 <form method="POST" action="./eliminar">
                                     {{ user_form.csrf_token }}
                                     <input type="hidden" value="{{ csrf_token }})">
-                                    <input type="hidden" value="{{i.id_proveedor}}" name="id">
+                                    <input type="hidden" value="{{res[i].id_ingrediente}}" name="id">
                                     <input type="submit" class="btn btn-danger" value="Eliminar">
                                 </form>
                             </div>
                         </div>
                     </td>
+
                 </tr>
                 {% endfor %}
             </table>
         </div>
     </div>
 </div>
+
+
+
+
+
+
 {% endblock %}
