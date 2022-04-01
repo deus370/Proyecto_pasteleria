@@ -21,7 +21,7 @@ from ..Insumos import Insumo
 @Insumo.route('/Formulario',methods=['GET','POST'])
 def Formulario():
     #Cargar los provedores y colocarlos en el select
-    proveedores  = ProveedoresDB.query.all()
+    proveedores  = ProveedoresDB.query.filter(ProveedoresDB.estatus==1).all()
     user_form = insumoForm()
     
     #Llenamos el select
@@ -39,7 +39,7 @@ def Formulario():
         
         
         print(c)
-        insumo= IngredientesDB(nombre=n,cantidad=c,unidad=u,proveedor=p)
+        insumo= IngredientesDB(nombre=n,cantidad=c,unidad=u,proveedor=p,estatus=1)
         
         db.session.add(insumo)   
         db.session.commit()
@@ -52,14 +52,14 @@ def Formulario():
 
 @Insumo.route('/cargarTabla',methods=['GET','POST'])
 def cargarTabla():    
-    result = IngredientesDB.query.all()
+    result = IngredientesDB.query.filter(IngredientesDB.estatus==1).all()
     user_form = insumoForm()
     proveedores=[]
     
     for i in result:
             result1 = ProveedoresDB.query \
             .with_entities(ProveedoresDB.nombre) \
-            .filter(ProveedoresDB.id_proveedor.like(i.proveedor)).all()
+            .filter(ProveedoresDB.estatus==1,ProveedoresDB.id_proveedor.like(i.proveedor)).all()
             proveedores.append(result1[0].nombre)
         
     aux=len(proveedores)
@@ -79,13 +79,13 @@ def cargarTabla():
         
         result = IngredientesDB.query \
         .with_entities(IngredientesDB.id_ingrediente,IngredientesDB.nombre,IngredientesDB.cantidad,IngredientesDB.unidad,IngredientesDB.proveedor) \
-        .filter(IngredientesDB.nombre.like(busqueda)).all()
+        .filter(IngredientesDB.estatus==1,IngredientesDB.nombre.like(busqueda)).all()
         
         
         for i in result:
             result1 = ProveedoresDB.query \
             .with_entities(ProveedoresDB.nombre) \
-            .filter(ProveedoresDB.id_proveedor.like(i.proveedor)).all()
+            .filter(ProveedoresDB.estatus==1,ProveedoresDB.id_proveedor.like(i.proveedor)).all()
             proveedores.append(result1[0].nombre)
 
         aux=len(proveedores)
@@ -107,7 +107,7 @@ def eliminar():
     print(id)
     
     insumo = IngredientesDB.query.filter_by(id_ingrediente=id).first()
-    db.session.delete(insumo)
+    insumo.estatus=0
     db.session.commit()
     
     flash("datos Eliminados")
@@ -116,7 +116,7 @@ def eliminar():
 
 @Insumo.route("/cargarActualizar",methods=['GET','POST'])
 def cargarActualizar():
-    proveedores  = ProveedoresDB.query.all()
+    proveedores  = ProveedoresDB.query.filter(ProveedoresDB.estatus==1).all()
     user_form = insumoForm()
     
     #Llenamos el select

@@ -22,8 +22,8 @@ def create_app():
     from .Insumos.views import Insumo
     app.register_blueprint(Insumo)
     
-    from .Insumos.views import Insumo
-    app.register_blueprint(Insumo)
+    from .Compra.views import Compra
+    app.register_blueprint(Compra)
     
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.urandom(24)
