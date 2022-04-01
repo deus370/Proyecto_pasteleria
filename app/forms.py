@@ -22,6 +22,5 @@ class proveedoresForm(FlaskForm):
     colonia=StringField('Colonia',
                         [validators.DataRequired(message='Ingrese una colonia'),
                          validators.length(min=5, max=30, message='Ingrese una colonia valida')])
-    busqueda=StringField('Busqueda')
-    submit=SubmitField('Guardar')
+
     

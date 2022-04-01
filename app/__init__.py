@@ -4,8 +4,6 @@ from flask_security import Security, SQLAlchemyUserDatastore
 from flask_sqlalchemy import SQLAlchemy
 from .config import DevelopmentConfig
 
-
-
 db = SQLAlchemy()
 from .modelos import User, Role, ProveedoresDB
 
@@ -13,7 +11,7 @@ userDataStore = SQLAlchemyUserDatastore(db, User, Role)
 
 def create_app():
     app = Flask(__name__)
-    
+    app.config.from_object(DevelopmentConfig)
     
     #Registramos el blueprint para las rutas
     from .Proveedor.views import Proveedor
@@ -35,8 +33,4 @@ def create_app():
     #Conectando los modelos a fask-security usando SQLAlchemyUserDatastore
     security = Security(app, userDataStore)
     
-    
     return app
-
-    
-    
