@@ -1,0 +1,84 @@
+{% extends 'layout1.html' %}
+
+{% block content %}
+{% from "_macros.html" import render_field %}
+<div class="container-fluid divs">
+    <div class="row">
+        <div class="col-2">            
+        </div>
+        <div class="col-10">
+            <form method="POST" action="./cargarTabla">
+                {{ user_form.csrf_token }}
+                <input type="hidden" value="{{ csrf_token }})">
+                <div class="row">
+                    <div class="col-10">
+                        {{render_field(user_form.busqueda)}}
+                    </div>
+                    <div class="col-2">
+                        {{render_field(user_form.submit)}}
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    
+    </div>
+    {% from "_macros.html" import render_field %}
+<div class="container-fluid divs">
+    <div class="row">
+        <div class="col-2"></div>
+
+        <div class="col-8">
+            <table class="table">
+                <tr class="tr-head">
+                    <th>id_Receta</th>
+                    <th>Nombre</th>
+                    <th>Sabor</th>
+                    <th>Cantidad</th>
+                    <th>Cubierta</th>
+                </tr>
+                {% for i in range(aux) %}
+                <tr class="tr-head">
+                    
+                    <td>{{res[i].id_receta}}</td>
+                    <td>{{res[i]['nombre']}}</td>
+                    <td>{{ingrediente[i]}}</td>
+                    <td>{{res[i]['cantidad']}}</td>
+                    <td>{{cubierta[i]}}</td>
+                    
+                    
+                    <td> 
+                        <div class="row">
+                            <div class="col-3">
+                                <form method="POST" action="./cargarActualizar">
+                                {{ user_form.csrf_token }}
+                                <input type="hidden" value="{{ csrf_token }})">
+                                    <input type="hidden" value="{{res[i].id_receta}}" name="id">
+                                    <input type="submit" class="btn-primary" value="Update">
+                                </form>
+                            </div>
+        
+                            <div class="col-6">
+                                <form method="POST" action="./eliminar">
+                                {{ user_form.csrf_token }}
+                                <input type="hidden" value="{{ csrf_token }})">
+                                    <input type="hidden" value="{{res[i].id_receta}}" name="id">
+                                    <input type="submit"  class="btn-primary" value="Eliminar">
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}

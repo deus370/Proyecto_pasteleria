@@ -34,6 +34,10 @@ class insumoForm(FlaskForm):
                              validators.number_range(max=100)])
     unidad = SelectField('Unidad',
                          choices=[('Lt', 'Litros'), ('Kg', 'Kilogramos')])
+    
+    cubierta= RadioField('Cubierta',
+                         choices=[('1', 'Si'), ('2', 'No')])
+    
     proveedor=SelectField('Proveedor',coerce=int)
     busqueda=StringField('Busqueda')
     submit=SubmitField('Guardar')
@@ -47,6 +51,7 @@ class RecetaForm(FlaskForm):
                             [validators.DataRequired(message='Ingrese un valor'),
                              validators.number_range(max=100)])
     ingrediente=SelectField('Ingrediente',coerce=int)
+    cubierta=SelectField('Cubierta',coerce=int)
     busqueda=StringField('Busqueda')
     submit=SubmitField('Guardar')
     
