@@ -50,3 +50,15 @@ class RecetaForm(FlaskForm):
     busqueda=StringField('Busqueda')
     submit=SubmitField('Guardar')
     
+
+class ComprasForm(FlaskForm):
+    costo = DecimalField('Costo (Kg,Lt)',
+                         [validators.DataRequired(message='Ingrese un datos'),
+                          validators.length(min=5, message='Inrese un valor valido')])
+    cantidad = DecimalField('Cantidad',
+                            [validators.DataRequired(message='Ingrese un valor'),
+                             validators.number_range(max=100,message="El valor debe ser menor a 100")])
+    ingrediente=SelectField('Ingrediente',coerce=int)
+    
+    busqueda=StringField('Busqueda')
+    submit=SubmitField('Guardar')    

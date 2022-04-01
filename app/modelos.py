@@ -49,6 +49,7 @@ class ProveedoresDB(db.Model):
     numero=db.Column(db.Integer, nullable=False)
     cp=db.Column(db.Integer, nullable=False)
     colonia=db.Column(db.String(100), nullable=False)
+    estatus=db.Column(db.Integer, nullable=False)
     
 class IngredientesDB(db.Model):
     """Ingredientes account model"""
@@ -58,7 +59,23 @@ class IngredientesDB(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     cantidad= db.Column(db.Float, nullable=False)
     unidad=db.Column(db.String, nullable=False)
+    estatus=db.Column(db.Integer, nullable=False)
     proveedor=db.Column(db.Integer)
+    
+    
+class ComprasDB(db.Model):
+    """Compras account model"""
+    
+    __tablename__ = 'proveedor_ingrediente'
+    id_pedido = db.Column(db.Integer, primary_key=True)
+    fecha_ingreso= db.Column(db.Date, nullable=False)
+    costo = db.Column(db.String(100), nullable=False)
+    cantidad= db.Column(db.Float, nullable=False)
+    total= db.Column(db.Float, nullable=False)
+    estatus=db.Column(db.Integer, nullable=False)
+    proveedor=db.Column(db.Integer)
+    ingrediente=db.Column(db.Integer)
+    
     
 class RecetasDB(db.Model):
     """Ingredientes account model"""
@@ -67,6 +84,7 @@ class RecetasDB(db.Model):
     id_receta = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
     cantidad= db.Column(db.Float, nullable=False)
+    estatus=db.Column(db.Integer, nullable=False)
     ingrediente=db.Column(db.Integer)
     
    

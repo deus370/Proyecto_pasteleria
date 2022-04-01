@@ -82,6 +82,9 @@ def eliminar():
     
     
     proveedor = ProveedoresDB.query.filter_by(id_proveedor=id).first()
+    
+    proveedor.estatus=0
+    
     db.session.delete(proveedor)
     db.session.commit()
     
