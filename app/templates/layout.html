@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <header class="p-3 bg-warning text-dark">
+    <header style="background-color:#FFB6C1">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <a href="/" class="navbar-brand">
@@ -19,8 +19,8 @@
                 </a>
 
                 <div class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <button href="/" type="button" class="btn btn-outline-dark">Inicio</button>
-                    <button type="button" class="btn btn-outline-dark">¿Quienés somos?</button>
+                    <input href="/" type="button" class="btn btn-outline-dark" value="Inicio">
+                    <input href="/" type="button" class="btn btn-outline-dark" value="¿Quienés somos?">
                 </div>
 
                 <div class="text-end">
@@ -30,6 +30,11 @@
             </div>
         </div>
     </header>
+    <div class="container-fluid">
+        {% block content %}
+
+        {% endblock %}
+    </div>
 </body>
 
 </html>

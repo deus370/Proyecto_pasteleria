@@ -15,9 +15,6 @@ from flask_security.decorators import roles_required
 from ..forms import insumoForm
 from ..Insumos import Insumo
 
-
-
-
 @Insumo.route('/Formulario',methods=['GET','POST'])
 def Formulario():
     #Cargar los provedores y colocarlos en el select
@@ -47,7 +44,7 @@ def Formulario():
         flash("Datos guardados")
         return redirect(url_for('insumo.cargarTabla'))
 
-    return render_template('insumosFormulario.html',**context)
+    return render_template('/insumos/insumosFormulario.html',**context)
 
 
 @Insumo.route('/cargarTabla',methods=['GET','POST'])
@@ -97,9 +94,9 @@ def cargarTabla():
         'aux':aux
         }
         
-        return render_template('tablaInsumo.html',**context)
+        return render_template('/insumos/tablaInsumo.html',**context)
 
-    return render_template('tablaInsumo.html',**context)
+    return render_template('/insumos/tablaInsumo.html',**context)
 
 @Insumo.route("/eliminar",methods=['GET','POST'])
 def eliminar():
@@ -134,7 +131,7 @@ def cargarActualizar():
         'res':result
     }
         
-    return render_template('insumosActualizar.html',**context)
+    return render_template('/insumos/insumosActualizar.html',**context)
 
 
 @Insumo.route("/actualizar",methods=['GET','POST'])
