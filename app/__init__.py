@@ -4,8 +4,6 @@ from flask_security import Security, SQLAlchemyUserDatastore
 from flask_sqlalchemy import SQLAlchemy
 from .config import DevelopmentConfig
 
-
-
 db = SQLAlchemy()
 from .modelos import User, Role, ProveedoresDB
 
@@ -13,7 +11,7 @@ userDataStore = SQLAlchemyUserDatastore(db, User, Role)
 
 def create_app():
     app = Flask(__name__)
-    
+    app.config.from_object(DevelopmentConfig)
     
     #Registramos el blueprint para las rutas
     from .Proveedor.views import Proveedor
@@ -22,8 +20,8 @@ def create_app():
     from .Insumos.views import Insumo
     app.register_blueprint(Insumo)
     
-    from .Insumos.views import Insumo
-    app.register_blueprint(Insumo)
+    from .Compra.views import Compra
+    app.register_blueprint(Compra)
     
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.urandom(24)
@@ -41,8 +39,4 @@ def create_app():
     #Conectando los modelos a fask-security usando SQLAlchemyUserDatastore
     security = Security(app, userDataStore)
     
-    
     return app
-
-    
-    

@@ -10,23 +10,18 @@ from flask_security import login_required
 from ..modelos import ProveedoresDB
 #Importamoes el objeto de la BD y userDataStore desde __init__
 from .. import db
-from sqlalchemy import insert,Column,Text
+from sqlalchemy import insert,Column,Text,and_
 from flask_security.decorators import roles_required
 from ..forms import proveedoresForm
 from ..Proveedor import Proveedor
 
-
-
-
 @Proveedor.route('/Formulario',methods=['GET','POST'])
-def Formulario():
-    
+def Formulario():    
     user_form = proveedoresForm()
     
     context={
         'user_form':user_form
     }
-    
     
     if user_form.is_submitted():
         n=str(user_form.nombre.data)
@@ -36,20 +31,19 @@ def Formulario():
         colonia=str(user_form.colonia.data)
         
         
-        proveedor = ProveedoresDB(nombre=n,calle=c,numero=nu,cp=cp,colonia=colonia)
+        proveedor = ProveedoresDB(nombre=n,calle=c,numero=nu,cp=cp,colonia=colonia,estatus=1)
         print(proveedor)
         db.session.add(proveedor)   
         db.session.commit()
         
         flash("Datos guardados")
         return redirect(url_for('proveedor.cargarTabla'))
-
-    return render_template('proveedoresFormulario.html',**context)
+    return render_template('/Proveedor/proveedoresFormulario.html',**context)
 
 
 @Proveedor.route('/cargarTabla',methods=['GET','POST'])
 def cargarTabla():    
-    result = ProveedoresDB.query.all()
+    result = ProveedoresDB.query.filter(ProveedoresDB.estatus==1).all()
     user_form = proveedoresForm()
     
     context={
@@ -65,16 +59,14 @@ def cargarTabla():
         result = ProveedoresDB.query \
         .with_entities(ProveedoresDB.id_proveedor,ProveedoresDB.nombre,ProveedoresDB.calle,ProveedoresDB.numero,
             ProveedoresDB.cp,ProveedoresDB.colonia) \
-        .filter(ProveedoresDB.nombre.like(busqueda)).all()
+        .filter(ProveedoresDB.estatus==1,ProveedoresDB.nombre.like(busqueda)).all()
         
         context={
         'user_form':user_form,
         'res':result
         }
-        
-        return render_template('tablaProveedor.html',**context)
-
-    return render_template('tablaProveedor.html',**context)
+        return render_template('/Proveedor/tablaProveedor.html',**context)
+    return render_template('/Proveedor/tablaProveedor.html',**context)
 
 @Proveedor.route("/eliminar",methods=['GET','POST'])
 def eliminar():
@@ -85,7 +77,6 @@ def eliminar():
     
     proveedor.estatus=0
     
-    db.session.delete(proveedor)
     db.session.commit()
     
     flash("datos Eliminados")
@@ -107,7 +98,7 @@ def cargarActualizar():
         'res':result
     }
         
-    return render_template('proveedoresActualizar.html',**context)
+    return render_template('/Proveedor/proveedoresActualizar.html',**context)
 
 
 @Proveedor.route("/actualizar",methods=['GET','POST'])
