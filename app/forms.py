@@ -68,4 +68,7 @@ class ComprasForm(FlaskForm):
     busqueda=StringField('Busqueda')
     submit=SubmitField('Guardar')    
 
+<<<<<<< HEAD
+=======
     
+>>>>>>> 002f3dc208a38aa70feef7e7e1d4fc107f1fec17

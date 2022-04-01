@@ -15,9 +15,6 @@ from flask_security.decorators import roles_required
 from ..forms import RecetaForm
 from ..Receta import Receta
 
-
-
-
 @Receta.route('/Formulario',methods=['GET','POST'])
 def Formulario():
     #Cargar los provedores y colocarlos en el select
@@ -50,7 +47,7 @@ def Formulario():
         flash("Datos guardados")
         return redirect(url_for('receta.cargarTabla'))
 
-    return render_template('recetasFormulario.html',**context)
+    return render_template('/recetas/recetasFormulario.html',**context)
 
 
 @Receta.route('/cargarTabla',methods=['GET','POST'])
@@ -86,6 +83,7 @@ def cargarTabla():
     if request.method=="POST":
         busqueda=request.form.get('busqueda')+'%'
         
+<<<<<<< HEAD
         result = RecetasDB.query \
         .with_entities(RecetasDB.id_receta,RecetasDB.nombre,RecetasDB.cantidad,RecetasDB.ingrediente,RecetasDB.cubierta) \
         .filter(RecetasDB.nombre.like(busqueda)).all()
@@ -108,6 +106,12 @@ def cargarTabla():
                 
         aux=len(Ingredientes)
         
+=======
+        result = IngredientesDB.query \
+        .with_entities(IngredientesDB.id_ingrediente,IngredientesDB.nombre,IngredientesDB.cantidad,IngredientesDB.unidad,IngredientesDB.proveedor) \
+        .filter(IngredientesDB.nombre.like(busqueda)).all()
+
+>>>>>>> cesar
         context={
             'user_form':user_form,
             'res':result,
@@ -116,9 +120,15 @@ def cargarTabla():
             'cubierta':cubiertas
         }
         
+<<<<<<< HEAD
         return render_template('tablaReceta.html',**context)
 
     return render_template('tablaReceta.html',**context)
+=======
+        return render_template('/receta/tablaInsumo.html',**context)
+
+    return render_template('/receta/tablaInsumo.html',**context)
+>>>>>>> cesar
 
 @Receta.route("/eliminar",methods=['GET','POST'])
 def eliminar():
@@ -154,8 +164,12 @@ def cargarActualizar():
         'user_form':user_form,
         'res':result
     }
+<<<<<<< HEAD
         
     return render_template('recetasActualizar.html',**context)
+=======
+    return render_template('/receta/insumosActualizar.html',**context)
+>>>>>>> cesar
 
 
 @Receta.route("/actualizar",methods=['GET','POST'])
