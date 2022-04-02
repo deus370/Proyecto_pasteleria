@@ -33,15 +33,10 @@ def Formulario():
         c=float(user_form.Cantidad.data)
         u=str(user_form.unidad.data)
         p=str(user_form.proveedor.data)
-        cu=int(user_form.cubierta.data)
-        e=1
-        
-        if cu == 1:
-           e=2 
         
         
         print(c)
-        insumo= IngredientesDB(nombre=n,cantidad=c,unidad=u,proveedor=p,estatus=e)
+        insumo= IngredientesDB(nombre=n,cantidad=c,unidad=u,proveedor=p)
         
         db.session.add(insumo)   
         db.session.commit()
@@ -149,22 +144,14 @@ def actualizar():
     cantidad=request.form.get('cantidad')
     unidad=request.form.get('unidad')
     proveedor=request.form.get('proveedor')
-    cu = int(request.form.get('cubierta'))
-    print(cu)
-    
-    e=1
-    if cu == 1:
-        e=2 
         
         
-    print(e)
     #aCTUALIZAR
     insumo = IngredientesDB.query.filter_by(id_ingrediente=id).first()
     insumo.nombre = nombre
     insumo.unidad = unidad
     insumo.cantidad = cantidad
     insumo.proveedor = proveedor
-    insumo.estatus = e
     
     db.session.commit()
     flash("datos actualizados")

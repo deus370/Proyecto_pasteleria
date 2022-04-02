@@ -1,6 +1,7 @@
 from email.policy import default
 from . import db
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.dialects.mysql import LONGTEXT
 #Importamos las clases UserMixin y RoleMixin de flask_security
 from flask_security import UserMixin, RoleMixin
 from sqlalchemy.dialects.mysql import DOUBLE
@@ -76,6 +77,17 @@ class ComprasDB(db.Model):
     ingrediente=db.Column(db.Integer, nullable=True)
     proveedor=db.Column(db.Integer, nullable=True)
     
+class ProductosDB(db.Model):
+    """Compras account model"""
+    __tablename__ = 'producto'
+    id_producto = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=True)
+    cantidad= db.Column(db.Float, nullable=True)
+    descripccion = db.Column(db.String(100), nullable=True)
+    precio= db.Column(db.Float, nullable=True)
+    imagen= db.Column(LONGTEXT, nullable=False)
+    estatus=db.Column(db.Integer, nullable=True)
+    receta=db.Column(db.Integer, nullable=True)
     
 class RecetasDB(db.Model):
     """Ingredientes account model"""
@@ -85,7 +97,6 @@ class RecetasDB(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     cantidad= db.Column(db.Float, nullable=False)
     estatus=db.Column(db.Integer, nullable=False)
-    cubierta =db.Column(db.Integer)
     ingrediente=db.Column(db.Integer)
     
    

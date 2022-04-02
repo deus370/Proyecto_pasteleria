@@ -1,18 +1,19 @@
 #Importamos los módulos a usar de flask
+from math import prod
 from flask import Blueprint, render_template, redirect, url_for, request, flash,Flask
 import sqlalchemy
 from flask import request
 from werkzeug.security import generate_password_hash, check_password_hash
-
+import base64
 #Importamos el método login_required de flask_security
 from flask_security import login_required
 #Importamos el modelo del usuario
-from ..modelos import ProveedoresDB, IngredientesDB
+from ..modelos import ProductosDB, RecetasDB
 #Importamoes el objeto de la BD y userDataStore desde __init__
 from .. import db
 from sqlalchemy import insert,Column,Text
 from flask_security.decorators import roles_required
-from ..forms import insumoForm
+from ..forms import ProductosForm
 from ..Producto import Producto
 
 
@@ -21,11 +22,11 @@ from ..Producto import Producto
 @Producto.route('/Formulario',methods=['GET','POST'])
 def Formulario():
     #Cargar los provedores y colocarlos en el select
-    proveedores  = ProveedoresDB.query.filter(ProveedoresDB.estatus==1).all()
-    user_form = insumoForm()
+    recetas  = RecetasDB.query.filter(RecetasDB.estatus==1).all()
+    user_form = ProductosForm()
     
     #Llenamos el select
-    user_form.proveedor.choices=[(i.id_proveedor,i.nombre) for i in proveedores]
+    user_form.receta.choices=[(i.id_receta,i.nombre) for i in recetas]
 
     context={
         'user_form':user_form
@@ -33,144 +34,186 @@ def Formulario():
     
     if user_form.is_submitted():
         n=str(user_form.nombre.data)
-        c=float(user_form.Cantidad.data)
-        u=str(user_form.unidad.data)
-        p=str(user_form.proveedor.data)
-        cu=int(user_form.cubierta.data)
-        e=1
+        c=float(user_form.cantidad.data)
+        d=str(user_form.descripcion.data)
+        p=float(user_form.precio.data)
+        r=user_form.receta.data
         
-        if cu == 1:
-           e=2 
+        img = request.files['img']
+    
+        if not img:
+            flash('Imagen no agregada')
+            return redirect(url_for('main.registerProduct'))
+
+        imagen = base64.b64encode(img.read())
         
+        producto= ProductosDB(nombre=n,cantidad=c,descripccion=d,precio=p,receta=r,imagen=imagen,estatus=1)
         
-        print(c)
-        insumo= IngredientesDB(nombre=n,cantidad=c,unidad=u,proveedor=p,estatus=e)
-        
-        db.session.add(insumo)   
+        db.session.add(producto)   
         db.session.commit()
         
         flash("Datos guardados")
-        return redirect(url_for('insumo.cargarTabla'))
+        return redirect(url_for('producto.cargarTabla'))
 
-    return render_template('insumosFormulario.html',**context)
+    return render_template('productosFormulario.html',**context)
 
 
 @Producto.route('/cargarTabla',methods=['GET','POST'])
 def cargarTabla():    
-    result = IngredientesDB.query.filter(IngredientesDB.estatus==1).all()
-    user_form = insumoForm()
-    proveedores=[]
+    result = ProductosDB.query.filter(ProductosDB.estatus==1).all()
+    user_form = ProductosForm()
+    recetas=[]
     
     for i in result:
-            result1 = ProveedoresDB.query \
-            .with_entities(ProveedoresDB.nombre) \
-            .filter(ProveedoresDB.estatus==1,ProveedoresDB.id_proveedor.like(i.proveedor)).all()
-            proveedores.append(result1[0].nombre)
+            result1 = RecetasDB.query \
+            .with_entities(RecetasDB.nombre) \
+            .filter(RecetasDB.estatus==1,RecetasDB.id_receta.like(i.receta)).all()
+            recetas.append(result1[0].nombre)
         
-    aux=len(proveedores)
+    aux=len(recetas)
     
     context={
         'user_form':user_form,
         'res':result,
-        'proveedores':proveedores,
+        'recetas':recetas,
         'aux':aux
     }
     
     if request.method=="POST":
         busqueda=request.form.get('busqueda')+'%'
-        proveedores=[]
+        recetas=[]
         
-        print(busqueda)
-        
-        result = IngredientesDB.query \
-        .with_entities(IngredientesDB.id_ingrediente,IngredientesDB.nombre,IngredientesDB.cantidad,IngredientesDB.unidad,IngredientesDB.proveedor) \
-        .filter(IngredientesDB.estatus==1,IngredientesDB.nombre.like(busqueda)).all()
-        
+        result = ProductosDB.query \
+        .with_entities(ProductosDB.id_producto,ProductosDB.nombre,ProductosDB.cantidad,ProductosDB.precio,ProductosDB.descripccion,ProductosDB.receta,ProductosDB.imagen) \
+        .filter(ProductosDB.estatus==1,ProductosDB.nombre.like(busqueda)).all()
         
         for i in result:
-            result1 = ProveedoresDB.query \
-            .with_entities(ProveedoresDB.nombre) \
-            .filter(ProveedoresDB.estatus==1,ProveedoresDB.id_proveedor.like(i.proveedor)).all()
-            proveedores.append(result1[0].nombre)
-
-        aux=len(proveedores)
-
+            result1 = RecetasDB.query \
+            .with_entities(RecetasDB.nombre) \
+            .filter(RecetasDB.estatus==1,RecetasDB.id_receta.like(i.receta)).all()
+            recetas.append(result1[0].nombre)
+        
+        aux=len(recetas)
+    
         context={
-        'user_form':user_form,
-        'res':result,
-        'proveedores':proveedores,
-        'aux':aux
+            'user_form':user_form,
+            'res':result,
+            'recetas':recetas,
+            'aux':aux
         }
         
-        return render_template('tablaInsumo.html',**context)
+        return render_template('tablaProductos.html',**context)
 
-    return render_template('tablaInsumo.html',**context)
+    return render_template('tablaProductos.html',**context)
 
 @Producto.route("/eliminar",methods=['GET','POST'])
 def eliminar():
     id = request.form.get('id')
     print(id)
     
-    insumo = IngredientesDB.query.filter_by(id_ingrediente=id).first()
-    insumo.estatus=0
+    producto = ProductosDB.query.filter_by(id_producto=id).first()
+    producto.estatus=0
     db.session.commit()
     
     flash("datos Eliminados")
-    return redirect(url_for('insumo.cargarTabla'))
+    return redirect(url_for('producto.cargarTabla'))
 
 
 @Producto.route("/cargarActualizar",methods=['GET','POST'])
 def cargarActualizar():
-    proveedores  = ProveedoresDB.query.filter(ProveedoresDB.estatus==1).all()
-    user_form = insumoForm()
+    recetas  = RecetasDB.query.filter(RecetasDB.estatus==1).all()
+    user_form = ProductosForm()
     
     #Llenamos el select
-    user_form.proveedor.choices=[(i.id_proveedor,i.nombre) for i in proveedores]
+    user_form.receta.choices=[(i.id_receta,i.nombre) for i in recetas]
     
     id = request.form.get('id')
     
     
-    result = IngredientesDB.query \
-        .with_entities(IngredientesDB.id_ingrediente,IngredientesDB.nombre,IngredientesDB.cantidad,IngredientesDB.unidad,IngredientesDB.proveedor) \
-        .filter(IngredientesDB.id_ingrediente.like(id)).all()
+    result = ProductosDB.query \
+        .with_entities(ProductosDB.id_producto,ProductosDB.nombre,ProductosDB.cantidad,ProductosDB.precio,ProductosDB.descripccion,ProductosDB.receta,ProductosDB.imagen) \
+        .filter(ProductosDB.id_producto.like(id)).all()
         
     context={
         'user_form':user_form,
         'res':result
     }
         
-    return render_template('insumosActualizar.html',**context)
+    return render_template('productosActualizar.html',**context)
 
 
 @Producto.route("/actualizar",methods=['GET','POST'])
 def actualizar():
     
-    user_form = insumoForm()
+    user_form = ProductosForm()
     
     id = request.form.get('id')
-    nombre=request.form.get('nombre')
-    cantidad=request.form.get('cantidad')
-    unidad=request.form.get('unidad')
-    proveedor=request.form.get('proveedor')
-    cu = int(request.form.get('cubierta'))
-    print(cu)
+    n = request.form.get('nombre')
+    p = request.form.get('precio')
+    d = request.form.get('descripcion')
+    c = request.form.get('cantidad')
+    img = request.files['img']
+    r=user_form.receta.data
     
-    e=1
-    if cu == 1:
-        e=2 
-        
-        
-    print(e)
-    #aCTUALIZAR
-    insumo = IngredientesDB.query.filter_by(id_ingrediente=id).first()
-    insumo.nombre = nombre
-    insumo.unidad = unidad
-    insumo.cantidad = cantidad
-    insumo.proveedor = proveedor
-    insumo.estatus = e
     
-    db.session.commit()
+    id = request.form.get('id')
+    
+    
+    if not img:
+        flash('Imagen no agregada')
+        #aCTUALIZAR
+        producto = ProductosDB.query.filter_by(id_producto=id).first()
+        producto.nombre = n
+        producto.precio = p
+        producto.descripccion = d
+        producto.cantidad = c
+        producto.receta = r
+        db.session.commit()
+    else:
+        imagen = base64.b64encode(img.read())
+        producto = ProductosDB.query.filter_by(id_producto=id).first()
+        producto.nombre = n
+        producto.precio = p
+        producto.descripccion = d
+        producto.cantidad = c
+        producto.receta = r
+        producto.imagen=imagen
+        db.session.commit()
+    
     flash("datos actualizados")
-    return redirect(url_for('insumo.cargarTabla'))
+    return redirect(url_for('producto.cargarTabla'))
 
 
+@Producto.route("/preparar",methods=["GET","POST"])
+def preparar():
+    user_form = ProductosForm()
+    
+    id = request.form.get('id')
+    
+    
+    result = ProductosDB.query \
+        .with_entities(ProductosDB.id_producto,ProductosDB.nombre,ProductosDB.imagen,ProductosDB.cantidad) \
+        .filter(ProductosDB.id_producto.like(id)).all()
+        
+    context={
+        'user_form':user_form,
+        'res':result
+    }
+    
+    return render_template("productosPreparar.html",**context)
+
+@Producto.route("/hornear",methods=['GET','POST'])
+def hornear():
+    
+    user_form = ProductosForm()
+    
+    id = request.form.get('id')
+    c = float(request.form.get('hornear'))
+    
+    producto = ProductosDB.query.filter_by(id_producto=id).first()
+    producto.cantidad =(producto.cantidad+c)
+    db.session.commit()
+    
+    
+    flash("Panquecitos Horneados")
+    return redirect(url_for('producto.cargarTabla'))

@@ -1,20 +1,21 @@
-{% extends "layout1.html" %}
+{% extends 'layout1.html' %}
 
 {% block content %}
-
+{% from "_macros.html" import render_field %}
 <div class="container-fluid divs">
     <div class="row">
-        <div class="col-2">
-            
+        <div class="col-2">            
         </div>
         <div class="col-10">
-            <form method="POST" action="./consultar">
+            <form method="POST" action="./cargarTabla">
+                {{ user_form.csrf_token }}
+                <input type="hidden" value="{{ csrf_token }})">
                 <div class="row">
                     <div class="col-10">
-                        <input class="input is-large"  name="busqueda" type="text" placeholder="Buscar" autofocus="">
+                        {{render_field(user_form.busqueda)}}
                     </div>
                     <div class="col-2">
-                        <input type="submit"  class="btn btn-primary" value="Buscar">
+                        {{render_field(user_form.submit)}}
                     </div>
                 </div>
             </form>
@@ -22,41 +23,68 @@
         </div>
     
     </div>
-    
-    <div class="container container-fluid">
+    {% from "_macros.html" import render_field %}
+<div class="container-fluid divs">
+    <div class="row">
+        <div class="col-2"></div>
+
+        <div class="col-8">
+            <table class="table">
+                <tr class="tr-head">
+                    <th>id_producto</th>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Precio </th>
+                    <th>Foto</th>
+                    <th>Descripcion</th>
+                    <th>Receta</th>
+                </tr>
+                {% for i in range(aux) %}
+                <tr class="tr-head">
+                    
+                    <td>{{res[i].id_producto}}</td>
+                    <td>{{res[i]['nombre']}}</td>
+                    <td>{{res[i]['cantidad']}}</td>
+                    <td>{{res[i]['precio']}}</td>
+                    <td>
+                        <img src="data:mimetype;base64,{{res[i].imagen}}" width="100" height="auto"/>
+                    </td>
+                    <td>{{res[i].descripccion}}</td>
+                    <td>{{recetas[i]}}</td>
+                    <td> 
+                        <div class="row">
+                            <div class="col-6">
+                                <form method="POST" action="./cargarActualizar">
+                                {{ user_form.csrf_token }}
+                                <input type="hidden" value="{{ csrf_token }})">
+                                    <input type="hidden" value="{{res[i].id_producto}}" name="id">
+                                    <input type="submit" class="btn-primary" value="Update">
+                                </form>
+                            </div>
         
-        <div class="row">
-            {% for i in res %}
-            <div class="col-3">
-                <h2>{{ i['name'] }}</h2>
+                            <div class="col-2">
+                                <form method="POST" action="./eliminar">
+                                {{ user_form.csrf_token }}
+                                <input type="hidden" value="{{ csrf_token }})">
+                                    <input type="hidden" value="{{res[i].id_producto}}" name="id">
+                                    <input type="submit"  class="btn-primary" value="Eliminar">
+                                </form>
+                            </div>
 
-                <img alt="Foto" src="..\static\archivo.jpg">
-
-
-                <h4>$ {{ i['precio'] }} </h4>
-
-                <div class="row">
-                    <div class="col-3">
-                        <form method="POST" action="./update">
-                            <input type="hidden" value="{{i.id}}" name="id">
-                            <input type="submit" class="btn-primary" value="Update">
-                        </form>
-                    </div>
-
-                    <div class="col-6">
-                        <form method="POST" action="./delete">
-                            <input type="hidden" value="{{i.id}}" name="id">
-                            <input type="submit"  class="btn-primary" value="Eliminar">
-                        </form>
-                    </div>
-                </div>
-                
-            </div>
-            {% endfor %}
+                            <div class="col-2">
+                                <form method="POST" action="./preparar">
+                                {{ user_form.csrf_token }}
+                                <input type="hidden" value="{{ csrf_token }})">
+                                    <input type="hidden" value="{{res[i].id_producto}}" name="id">
+                                    <input type="submit"  class="btn-primary" value="Hornear">
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
-        
-    </div>
-
     </div>
 </div>
 
