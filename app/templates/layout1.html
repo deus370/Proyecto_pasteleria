@@ -15,19 +15,19 @@
         <div class="px-3 py-2  text-white">
             <div class="container-fluid">
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                    <a href="/"
+                    <a href="{{ url_for('inicio.cargarInicio') }}"
                         class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
                         <img src="/static/img/CROWNCUPCAKE1.png" alt="nop" width="100" height="52">
                     </a>
 
                     <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                         <li>
-                            <a href="/" class="nav-link text-dark">
+                            <a href="{{ url_for('inicio.cargarInicio') }}" class="nav-link text-dark">
                                 <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-casa-50.png" alt="nop"
                                     width="30" height="30">
                                 Inicio
                             </a>
-                        </li>
+                        </li>                        
                         <li>
                             <a href="#" class="nav-link text-dark">
                                 <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-invitado-masculino-50.png"
@@ -36,10 +36,24 @@
                             </a>
                         </li>
                         <li>
+                            <a href="#" class="nav-link text-dark">
+                                <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-tarjeta-de-empleado-50.png"
+                                    alt="nop" width="30" height="30">
+                                Empleados
+                            </a>
+                        </li>                      
+                        <li>
                             <a href="{{ url_for('insumo.cargarTabla') }}" class="nav-link text-dark">
                                 <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-paquete1-50.png" alt="nop"
                                     width="30" height="30">
                                 Insumos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('compra.cargarTabla') }}" class="nav-link text-dark">
+                                <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-shopaholic-50.png"
+                                    alt="nop" width="30" height="30">
+                                Compras
                             </a>
                         </li>
                         <li>
@@ -48,7 +62,7 @@
                                     width="30" height="30">
                                 Proveedores
                             </a>
-                        </li>
+                        </li>                        
                         <li>
                             <a href="{{ url_for('producto.cargarTabla') }}" class="nav-link text-dark">
                                 <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-bake-50.png" alt="nop"

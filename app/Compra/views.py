@@ -36,9 +36,6 @@ def Formulario():
         i=int(user_form.ingrediente.data)
         can=str(user_form.cantidad.data)
         
-        if i == 1:
-            can=(16*can)
-        
         p=IngredientesDB.query \
             .with_entities(IngredientesDB.proveedor) \
             .filter(IngredientesDB.id_ingrediente.like(i)).all()
@@ -48,7 +45,7 @@ def Formulario():
         db.session.add(compra)   
         db.session.commit()
         
-        flash("Datos guardados")
+        flash("Se guardaron correctamente los datos")
         return redirect(url_for('compra.cargarTabla'))
 
     return render_template('/compra/comprasFormulario.html',**context)
@@ -136,7 +133,7 @@ def actualizar():
     compra.estatus =0 
     
     db.session.commit()
-    flash("datos actualizados")
+    flash("Se cancelo correctamente la compra")
     return redirect(url_for('compra.cargarTabla'))
 
 

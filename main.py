@@ -16,11 +16,8 @@ csrf=CSRFProtect()
 
 @app.route("/")
 def index():
-    return render_template("main.html")
+    return render_template("index.html")
 
-@app.route('/acerca')
-def acerca():
-    return render_template("acerca.html")
 
 if __name__=="__main__":
     ##Levantar el servidor y que permita trabajar en el puerto 3000
