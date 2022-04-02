@@ -24,5 +24,5 @@ def acerca():
 
 if __name__=="__main__":
     ##Levantar el servidor y que permita trabajar en el puerto 3000
-    csrf.init_app(app)
+    #csrf.init_app(app)
     app.run(port=3000)

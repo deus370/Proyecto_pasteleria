@@ -7,7 +7,7 @@
         <div class="col-2">            
         </div>
         <div class="col-10">
-            <form method="POST" action="./cargarTabla">
+            <form method="POST" action="./cargarTablaEmpleado">
                 {{ user_form.csrf_token }}
                 <input type="hidden" value="{{ csrf_token }})">
                 <div class="row">
@@ -31,61 +31,61 @@
         <div class="col-8">
             <table class="table">
                 <tr class="tr-head">
-                    <th>id_producto</th>
+                    <th>id_proveedor</th>
                     <th>Nombre</th>
-                    <th>Cantidad</th>
-                    <th>Precio </th>
-                    <th>Foto</th>
-                    <th>Descripcion</th>
-                    <th>Receta</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>Correo</th>
+                    <th>Calle</th>
+                    <th>Numero</th>
+                    <th>Codigo Postal</th>
+                    <th>Colonia</th>
+                    <th>Acciones</th>
                 </tr>
-                {% for i in range(aux) %}
+                {% for i in res %}
                 <tr class="tr-head">
                     
-                    <td>{{res[i].id_producto}}</td>
-                    <td>{{res[i]['nombre']}}</td>
-                    <td>{{res[i]['cantidad']}}</td>
-                    <td>{{res[i]['precio']}}</td>
-                    <td>
-                        <img src="data:mimetype;base64,{{res[i].imagen}}" width="100" height="auto"/>
-                    </td>
-                    <td>{{res[i].descripccion}}</td>
-                    <td>{{recetas[i]}}</td>
+                    <td>{{i['id_persona']}}</td>
+                    <td>{{i['nombre']}}</td>
+                    <td>{{i['a_paterno']}}</td>
+                    <td>{{i['a_materno']}}</td>
+                    <td>{{i['correo']}}</td>
+                    <td>{{i['calle']}}</td>
+                    <td>{{i['numero']}}</td>
+                    <td>{{i['cp']}}</td>
+                    <td>{{i['colonia']}}</td>
                     <td> 
                         <div class="row">
-                            <div class="col-6">
-                                <form method="POST" action="./cargarActualizar">
+                            <div class="col-3">
+                                <form method="POST" action="./cargarActualizarEmpleado">
                                 {{ user_form.csrf_token }}
                                 <input type="hidden" value="{{ csrf_token }})">
-                                    <input type="hidden" value="{{res[i].id_producto}}" name="id">
+                                    <input type="hidden" value="{{i.id_persona}}" name="id">
                                     <input type="submit" class="btn-primary" value="Update">
                                 </form>
                             </div>
         
-                            <div class="col-2">
-                                <form method="POST" action="./eliminar">
+                            <div class="col-6">
+                                <form method="POST" action="./eliminarEmpleado">
                                 {{ user_form.csrf_token }}
                                 <input type="hidden" value="{{ csrf_token }})">
-                                    <input type="hidden" value="{{res[i].id_producto}}" name="id">
+                                    <input type="hidden" value="{{i.id_persona}}" name="id">
                                     <input type="submit"  class="btn-primary" value="Eliminar">
-                                </form>
-                            </div>
-
-                            <div class="col-2">
-                                <form method="POST" action="./preparar">
-                                {{ user_form.csrf_token }}
-                                <input type="hidden" value="{{ csrf_token }})">
-                                    <input type="hidden" value="{{res[i].id_producto}}" name="id">
-                                    <input type="submit"  class="btn-primary" value="Hornear">
                                 </form>
                             </div>
                         </div>
                     </td>
+
                 </tr>
                 {% endfor %}
             </table>
         </div>
     </div>
 </div>
+
+
+
+
+
 
 {% endblock %}

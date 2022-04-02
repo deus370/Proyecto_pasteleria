@@ -1,0 +1,66 @@
+{% extends "layout1.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <h1 class="text-center">Actualizar Proveedor</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <form class="form-horizontal" method="POST" action="./actualizar">
+                {{ user_form.csrf_token }}
+                <input type="hidden" value="{{ csrf_token }})">
+                {% for i in res %}
+                <div class="container">
+                    <div class="form-group row ">
+                        <div class="col-sm-1-12">
+                            <input value="{{i.id_proveedor}}" type="hidden" name="id">
+
+                            <label class="form-label">Nombre</label>
+                            <input class="form-control" value="{{i.nombre}}" type="text" name="nombre"
+                                placeholder="nombre" autofocus="">
+                            <br>
+                            <label class="form-label">Apellido Paterno</label>
+                            <input class="form-control" value="{{i.a_paterno}}" type="text" name="a_paterno"
+                                placeholder="nombre" autofocus="">
+                            <br>
+                            <label class="form-label">A´pellido Materno</label>
+                            <input class="form-control" value="{{i.a_materno}}" type="text" name="a_materno"
+                                placeholder="nombre" autofocus="">
+                            <br>
+                            <label class="form-label">Telefono</label>
+                            <input class="form-control" value="{{i.telefono}}" type="text" name="telefono"
+                                placeholder="nombre" autofocus="">
+                            <br>
+                            <label class="form-label">Calle</label>
+                            <input class="form-control" value="{{i.calle}}" name="calle" type="text" placeholder="Calle"
+                                autofocus="">
+                            <br>
+                            <label class="form-label">Numero</label>
+                            <input class="form-control" value="{{i.numero}}" name="numero" type="number"
+                                placeholder="Numero" autofocus="">
+                            <br>
+                            <label class="form-label">Codigo Postal</label>
+                            <input class="form-control" value="{{i.cp}}" name="cp" type="number"
+                                placeholder="Codigo Postal" autofocus="">
+                            <br>
+                            <label class="form-label">Colonia</label>
+                            <input class="form-control" value="{{i.colonia}}" name="colonia" type="text"
+                                placeholder="colonia" autofocus="">
+                            <br>
+                            <div class="form-group row">
+                                <div class="col-sm-1-12 text-end">
+                                    <input type="submit" class="btn btn-success" value="Actualizar">   
+                                </div>
+                            </div>
+                            {% endfor%}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

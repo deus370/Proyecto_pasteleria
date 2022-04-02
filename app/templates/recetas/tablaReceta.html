@@ -2,91 +2,92 @@
 
 {% block content %}
 {% from "_macros.html" import render_field %}
-<div class="container-fluid divs">
+<div class="container">
     <div class="row">
-        <div class="col-2">            
-        </div>
-        <div class="col-10">
-            <form method="POST" action="./cargarTabla">
-                {{ user_form.csrf_token }}
-                <input type="hidden" value="{{ csrf_token }})">
-                <div class="row">
-                    <div class="col-10">
-                        {{render_field(user_form.busqueda)}}
-                    </div>
-                    <div class="col-2">
-                        {{render_field(user_form.submit)}}
-                    </div>
+        <div class="px-3 py-2 border-bottom mb-3">
+            <div class="container d-flex flex-wrap justify-content-center">
+                <div class="col-2 align-self-center">
+                    <form method="POST" action="./cargarTabla">
+                        {{ user_form.csrf_token }}
+                        <input type="hidden" value="{{ csrf_token }})">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="search" class="form-control" placeholder="Busqueda" aria-label="Search"
+                                    name="busqueda">
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
-            
+                <div class="col-8 align-self-center text-center">
+                    <h1>Recetas</h1>
+                </div>
+                <div class="col-1 align-self-center text-end">
+                    <form action="./cargarTabla">
+                        <input type="image" class="btn btn-primary" src="/static/svg/icons8-actualizar-30.png"
+                            value="Agregar">
+                    </form>
+                </div>
+                <div class="col-1 align-self-center text-end">
+                    <form action="./Formulario">
+                        {{ user_form.csrf_token }}
+                        <input type="hidden" value="{{ csrf_token }})">
+                        <input type="submit" class="btn btn-success" value="Agregar">
+                    </form>
+                </div>
+            </div>
         </div>
-    
     </div>
-    {% from "_macros.html" import render_field %}
-<div class="container-fluid divs">
+</div>
+{% from "_macros.html" import render_field %}
+<div class="container text-center">
     <div class="row">
-        <div class="col-2"></div>
-
-        <div class="col-8">
+        <div class="col-12">
             <table class="table">
                 <tr class="tr-head">
-                    <th>id_Receta</th>
                     <th>Nombre</th>
                     <th>Ingredientes</th>
                     <th>Sabor</th>
                     <th>Cantidad</th>
+                    <th>Acciones</th>
                 </tr>
                 {% for i in range(aux) %}
                 <tr class="tr-head">
-                    
-                    <td>{{res[i].id_receta}}</td>
                     <td>{{res[i]['nombre']}}</td>
-                    
                     <td>1 huevo
                         70 gr de azúcar <br>
                         1 pizca de sal <br>
                         60 gr de harina <br>
                         60 gr de mantequilla <br>
-                        4 gr de polvo para hornear <br> 
+                        4 gr de polvo para hornear <br>
                         1/2 cda de vainilla <br>
                         40 gr de leche</td>
                     <td>{{ingrediente[i]}}</td>
                     <td>{{res[i]['cantidad']}}</td>
-                    
-                    
-                    <td> 
+                    <td>
                         <div class="row">
                             <div class="col-6">
                                 <form method="POST" action="./cargarActualizar">
-                                {{ user_form.csrf_token }}
-                                <input type="hidden" value="{{ csrf_token }})">
+                                    {{ user_form.csrf_token }}
+                                    <input type="hidden" value="{{ csrf_token }})">
                                     <input type="hidden" value="{{res[i].id_receta}}" name="id">
-                                    <input type="submit" class="btn-primary" value="Update">
+                                    <input type="submit" class="btn btn-warning" value="Actualizar">
                                 </form>
                             </div>
-        
+
                             <div class="col-6">
                                 <form method="POST" action="./eliminar">
-                                {{ user_form.csrf_token }}
-                                <input type="hidden" value="{{ csrf_token }})">
+                                    {{ user_form.csrf_token }}
+                                    <input type="hidden" value="{{ csrf_token }})">
                                     <input type="hidden" value="{{res[i].id_receta}}" name="id">
-                                    <input type="submit"  class="btn-primary" value="Eliminar">
+                                    <input type="submit" class="btn btn-danger" value="Eliminar">
                                 </form>
                             </div>
                         </div>
                     </td>
-
                 </tr>
                 {% endfor %}
             </table>
         </div>
     </div>
 </div>
-
-
-
-
-
-
 {% endblock %}

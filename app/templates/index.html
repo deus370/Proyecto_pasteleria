@@ -1,1 +1,38 @@
+<<<<<<< HEAD
+{% extends "base.html" %}
+
+{% block content %}
+    <h3 class="title">Login</h3>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form name="form1" action="" method="POST">
+            {{ user_form.csrf_token }}
+            <input type="hidden" value="{{ csrf_token }})">
+            <div class="form-group row">
+                <div class="col-sm-1-12">
+                    {{render_field(login.nombre)}}
+                    {{render_field(login.calle)}}
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-1-12">
+                    {{render_field(login.submit)}}   
+                </div>
+            </div>
+            
+        </form>
+
+
+        </form>
+    </div>
+</div>
+{% endblock %}
+=======
 {% extends "layout.html" %}
+
+>>>>>>> 23ed992e0a2726b7193dc4fe995b0d2c7981145c
