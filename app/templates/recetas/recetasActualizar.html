@@ -2,36 +2,44 @@
 
 {% block content %}
 {% from "_macros.html" import render_field %}
-<div class="column is-4 is-offset-4">
-    <h3 class="title">Actualziar Producto</h3>
-    <div class="box">
-        <form method="POST" action="./actualizar">
-            <form method="POST" action="./eliminar">
-            {{ user_form.csrf_token }}
-            {% for i in res %}
-            <div class="field">
-                <div class="control">
-                    <input value="{{i.id_receta}}"  type="hidden" name="id">
-                </div>
-            </div>
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" value="{{i.nombre}}"  type="text" name="nombre" placeholder="nombre" autofocus="">
-                </div>
-            </div>
+<div class="container-fluid">
+    <div class="row">
+        <h1 class="text-center">Actualizar Receta</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <form class="form-horizontal" method="POST" action="./actualizar">
+                {{ user_form.csrf_token }}
+                <input type="hidden" value="{{ csrf_token }})">
+                {% for i in res %}
+                <div class="container">
+                    <div class="form-group row ">
+                        <div class="col-sm-1-12">
+                            <input value="{{i.id_receta}}" type="hidden" name="id">
 
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" value="{{i.cantidad}}" name="cantidad" type="float" placeholder="Calle" autofocus="">
-                    
+                            <label class="form-label">Nombre</label>
+                            <input class="form-control" value="{{i.nombre}}" type="text" name="nombre"
+                                placeholder="nombre" autofocus="">
+                            <br>
+                            <label class="form-label">Cantidad</label>
+                            <input class="form-control" value="{{i.cantidad}}" name="cantidad" type="text"
+                                placeholder="Calle" autofocus="">
+                            <br>
+                            {{render_field(user_form.ingrediente, class="form-control")}}
+                            <br>
+                            <div class="form-group row">
+                                <div class="col-sm-1-12 text-end">
+                                    <input type="submit" class="btn btn-success" value="Actualizar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            {{render_field(user_form.ingrediente)}}
-
-            <button class="button is-block is-info is-large is-fullwidth">Actualizar</button>
-            {% endfor%}
-        </form>
+                {% endfor%}
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}
