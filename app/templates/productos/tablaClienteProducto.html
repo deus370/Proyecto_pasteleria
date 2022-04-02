@@ -1,0 +1,22 @@
+{% extends 'layout1.html' %}
+
+{% block content %}
+{% from "_macros.html" import render_field %}
+
+
+<div class="container">
+    <div class="row">
+        {% for i in range(aux) %}
+        <div class="col-4">
+            <h5 class="card-title">{{res[i]['nombre']}}</h5>
+            <img src="data:mimetype;base64,{{res[i].imagen}}" class="img-fluid" alt="">
+            <h5 class="card-title">{{res[i]['precio']}}</h5>
+            <p class="card-text">{{res[i].descripccion}}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+{% endblock %}
