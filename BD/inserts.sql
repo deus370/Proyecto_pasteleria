@@ -7,17 +7,17 @@ INSERT INTO Proveedor(nombre, calle, numero, cp, colonia) VALUES ("CALLE GOLFO D
 INSERT INTO Proveedor(nombre, calle, numero, cp, colonia) VALUES ("MEXICANA SA DE CV", "San martin",  116, 37400, "Satelite");
 
 /* Resgistros Ingredientes*/
-INSERT INTO Ingrediente(nombre, cantidad, unidad, estatus, proveedor) VALUES ("Huevo", 50, "pz", 1);
-INSERT INTO Ingrediente(nombre, cantidad, unidad, estatus, proveedor) VALUES ("Azucar", 50, "gr", 2);
-INSERT INTO Ingrediente(nombre, cantidad, unidad, estatus, proveedor) VALUES ("Sal", 50, "gr", 3);
-INSERT INTO Ingrediente(nombre, cantidad, unidad, estatus, proveedor) VALUES ("Harina", 50, "gr", 4);
-INSERT INTO Ingrediente(nombre, cantidad, unidad, estatus, proveedor) VALUES ("Mantequilla", 50, "gr", 5);
-INSERT INTO Ingrediente(nombre, cantidad, unidad, estatus, proveedor) VALUES ("Polvo para Hornear", 50, "gr", 2);
-INSERT INTO Ingrediente(nombre, cantidad, unidad, estatus, proveedor) VALUES ("Vainilla", 50, "gr", 6);
-INSERT INTO Ingrediente(nombre, cantidad, unidad, estatus, proveedor) VALUES ("Leche", 50, "gr", 6);
-INSERT INTO Ingrediente(nombre, cantidad, unidad, estatus, proveedor) VALUES ("Nuez", 50, "", 1);
-INSERT INTO Ingrediente(nombre, cantidad, unidad, estatus, proveedor) VALUES ("Chocolate", 50, "", 1);
-INSERT INTO Ingrediente(nombre, cantidad, unidad, estatus, proveedor) VALUES ("Fresa", 50, "", 2);
+INSERT INTO Ingrediente(nombre, cantidad, unidad, proveedor) VALUES ("Azucar", 50, "gr", 2);
+INSERT INTO Ingrediente(nombre, cantidad, unidad, proveedor) VALUES ("Huevo", 50, "pz", 1);
+INSERT INTO Ingrediente(nombre, cantidad, unidad, proveedor) VALUES ("Sal", 50, "gr", 3);
+INSERT INTO Ingrediente(nombre, cantidad, unidad, proveedor) VALUES ("Harina", 50, "gr", 4);
+INSERT INTO Ingrediente(nombre, cantidad, unidad, proveedor) VALUES ("Mantequilla", 50, "gr", 5);
+INSERT INTO Ingrediente(nombre, cantidad, unidad, proveedor) VALUES ("Polvo para Hornear", 50, "gr", 2);
+INSERT INTO Ingrediente(nombre, cantidad, unidad, proveedor) VALUES ("Vainilla", 50, "gr", 6);
+INSERT INTO Ingrediente(nombre, cantidad, unidad, proveedor) VALUES ("Leche", 50, "gr", 6);
+INSERT INTO Ingrediente(nombre, cantidad, unidad, proveedor) VALUES ("Nuez", 50, "gr", 1);
+INSERT INTO Ingrediente(nombre, cantidad, unidad, proveedor) VALUES ("Chocolate", 50, "gr", 1);
+INSERT INTO Ingrediente(nombre, cantidad, unidad, proveedor) VALUES ("Fresa", 50, "gr", 2);
 
 /* Recetas*/
  insert into Receta(nombre, cantidad, ingrediente) values ("panque fresa", 20, 9);

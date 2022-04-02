@@ -33,7 +33,7 @@ class insumoForm(FlaskForm):
                             [validators.DataRequired(message='Ingrese un valor'),
                              validators.number_range(max=100)])
     unidad = SelectField('Unidad',
-                         choices=[('Lt', 'Litros'), ('Kg', 'Kilogramos')])
+                         choices=[('Lt', 'Litros'), ('Kg', 'Kilogramos'), ('Gr', 'Gramos'), ('Pz', 'Piezas') ])
     
     proveedor=SelectField('Proveedor',coerce=int)
     busqueda=StringField('Busqueda')
