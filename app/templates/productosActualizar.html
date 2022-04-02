@@ -5,13 +5,13 @@
 <div class="column is-4 is-offset-4">
     <h3 class="title">Actualziar Producto</h3>
     <div class="box">
-        <form method="POST" action="./actualizar">
-            <form method="POST" action="./eliminar">
+        <form method="POST" action="./actualizar" enctype="multipart/form-data">
             {{ user_form.csrf_token }}
             {% for i in res %}
+            <img src="data:mimetype;base64,{{i.imagen}}" width="100" height="auto" alt="Imagen Producto"/>
             <div class="field">
                 <div class="control">
-                    <input value="{{i.id_receta}}"  type="hidden" name="id">
+                    <input value="{{i.id_producto}}"  type="hidden" name="id">
                 </div>
             </div>
             <div class="field">
@@ -27,7 +27,29 @@
                 </div>
             </div>
 
-            {{render_field(user_form.ingrediente)}}
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" value="{{i.precio}}" name="precio" type="float" placeholder="Calle" autofocus="">
+                    
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" value="{{i.descripccion}}" name="descripcion" type="float" placeholder="Calle" autofocus="">
+                    
+                </div>
+            </div>
+
+
+            {{render_field(user_form.receta)}}
+
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="file" name="img" placeholder="Imagen">
+                </div>
+            </div>
 
             <button class="button is-block is-info is-large is-fullwidth">Actualizar</button>
             {% endfor%}
