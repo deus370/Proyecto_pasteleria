@@ -1,0 +1,49 @@
+{% extends "layout1.html" %}
+
+{% block content %}
+{% from "_macros.html" import render_field %}
+<div class="container-fluid">
+    <div class="row">
+        <h1 class="text-center">Hornear Producto</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <form method="POST" action="./hornear" enctype="multipart/form-data">
+                {{ user_form.csrf_token }}
+                <input type="hidden" value="{{ csrf_token }})">
+                {% for i in res %}
+                <div class="container">
+                    <div class="form-group row ">
+                        <div class="col-sm-1-12">
+                            <input value="{{i.id_producto}}" type="hidden" name="id">
+                            <div style="text-align: center;">
+                                <img class="img-fluid" src="data:mimetype;base64,{{i.imagen}}" width="400" height="auto"
+                                    alt="Imagen Producto" />
+                            </div>
+                            <div style="text-align: center;">
+                                <h3>{{i.nombre}}</h3>
+                            </div>
+                            <div class="row">
+                                <div style="text-align: center;">
+                                    <h3>Stock:</h3>
+                                    <h3>{{i.cantidad}}</h3>
+                                </div>
+                            </div>
+                            {{render_field(user_form.hornear, class="form-control")}}
+                            <br>
+                            <div class="form-group row">
+                                <div class="col-sm-1-12 text-end">
+                                    <input type="submit" class="btn btn-success" value="Hornear">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor%}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

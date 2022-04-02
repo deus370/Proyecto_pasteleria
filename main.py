@@ -16,7 +16,7 @@ csrf=CSRFProtect()
 
 @app.route("/")
 def index():
-    return render_template("acerca.html")
+    return render_template("main.html")
 
 @app.route('/acerca')
 def acerca():
