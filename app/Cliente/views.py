@@ -12,16 +12,16 @@ from ..modelos import Usuario, Persona, users_roles
 from .. import db, userDataStore
 from sqlalchemy import insert,Column,Text
 from flask_security.decorators import roles_required
-from ..forms import EmpleadosForm
-from ..Empleado import Empleado
+from ..forms import ClientesForm
+from ..Cliente import Cliente
 
 
 
 
-@Empleado.route('/FormularioEmpleados',methods=['GET','POST'])
+@Cliente.route('/FormularioCliente',methods=['GET','POST'])
 def Formulario():
     
-    user_form = EmpleadosForm()
+    user_form = ClientesForm()
     
     context={
         'user_form':user_form
@@ -45,7 +45,7 @@ def Formulario():
         if user: #Si se encontró un usuario, redireccionamos de regreso a la página de registro
             flash('El correo electrónico ya existe')
             #return redirect(url_for('auth.register'))
-            return render_template('empleado/EmpleadoFormulario.html',**context)
+            return render_template('cliente/ClienteFormulario.html',**context)
         
         persona = Persona(nombre=n,a_paterno=ap,a_materno=am,telefono=telefono,correo=correo,calle=c,numero=nu,cp=cp,colonia=colonia)
         db.session.add(persona)
@@ -63,16 +63,16 @@ def Formulario():
         #usuario = Usuario(usuario=correo,contrasena=contrasena,persona=personaId,rol=2)
         
         #return redirect(url_for('proveedor.cargarTabla'))
-        return redirect(url_for('empleado.cargarTablaEmpleado',**context))
+        return redirect(url_for('cliente.cargarTablaCliente',**context))
 
-    return render_template('empleado/EmpleadoFormulario.html',**context)
+    return render_template('cliente/ClienteFormulario.html',**context)
 
 
-@Empleado.route('/cargarTablaEmpleado',methods=['GET','POST'])
-def cargarTablaEmpleado():    
+@Cliente.route('/cargarTablaCliente',methods=['GET','POST'])
+def cargarTablaCliente():    
     result = db.session.query(Persona.id_persona,Persona.nombre, Persona.a_paterno, Persona.a_materno,Persona.telefono,Persona.correo,Persona.calle,Persona.numero,
             Persona.cp,Persona.colonia).filter(Persona.correo == Usuario.usuario).filter(Usuario.estatus == 1).all()
-    user_form = EmpleadosForm()
+    user_form = ClientesForm()
     
     context={
         'user_form':user_form,
@@ -91,12 +91,12 @@ def cargarTablaEmpleado():
         'res':result
         }
         
-        return redirect(url_for('empleado.cargarTablaEmpleado',**context))
+        return redirect(url_for('eliente.cargarTablaCliente',**context))
 
-    return render_template('empleado/tablaEmpleados.html',**context)
+    return render_template('eliente/tablaClientes.html',**context)
 
-@Empleado.route("/eliminarEmpleado",methods=['GET','POST'])
-def eliminarEmpleado():
+@Cliente.route("/eliminarCliente",methods=['GET','POST'])
+def eliminarCliente():
     id_persona = request.form.get('id')
     print(id_persona)
     
@@ -105,11 +105,11 @@ def eliminarEmpleado():
     db.session.commit()
     
     flash("datos Eliminados")
-    return redirect(url_for('empleado.cargarTablaEmpleado'))
+    return redirect(url_for('eliente.cargarTablaCliente'))
 
-@Empleado.route("/cargarActualizarEmpleado",methods=['GET','POST'])
-def cargarActualizarEmpleado():
-    user_form = EmpleadosForm()
+@Cliente.route("/cargarActualizarCliente",methods=['GET','POST'])
+def cargarActualizarCliente():
+    user_form = ClientesForm()
     
     id = request.form.get('id')
     
@@ -122,10 +122,10 @@ def cargarActualizarEmpleado():
         'res':result
     }
         
-    return render_template('empleado/EmpleadoActualizar.html',**context)
+    return render_template('eliente/ClienteActualizar.html',**context)
 
 
-@Empleado.route("/actualizar",methods=['GET','POST'])
+@Cliente.route("/actualizar",methods=['GET','POST'])
 def actualizar():
     
     id = request.form.get('id')
@@ -151,4 +151,4 @@ def actualizar():
     
     db.session.commit()
     flash("datos actualizados")
-    return redirect(url_for('empleado.cargarTablaEmpleado'))
+    return redirect(url_for('eliente.cargarTablaCliente'))

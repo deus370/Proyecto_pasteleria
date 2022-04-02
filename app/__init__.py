@@ -14,6 +14,9 @@ def create_app():
     app.config.from_object(DevelopmentConfig)
     
     #Registramos el blueprint para las rutas
+    from .login.views import Login
+    app.register_blueprint(Login)
+    
     from .Proveedor.views import Proveedor
     app.register_blueprint(Proveedor)
     
@@ -32,11 +35,13 @@ def create_app():
     from .Empleado.views import Empleado
     app.register_blueprint(Empleado)
     
+    from .Cliente.views import Cliente
+    app.register_blueprint(Cliente)
+    
     from .Inicio.views import Inicio
     app.register_blueprint(Inicio)
     
-    from .login.views import Login
-    app.register_blueprint(Login)
+
     
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.urandom(24)

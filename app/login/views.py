@@ -6,16 +6,19 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 #Importamos el método login_required de flask_security
 from flask_security import login_required
-from flask_security.utils import login_user
-#Importamos el modelo del usuario
+#Importamos el modelo del 
+# 
 from ..modelos import Usuario
+from flask_security.utils import login_user, logout_user, hash_password, encrypt_password
+
 #Importamoes el objeto de la BD y userDataStore desde __init__
 from .. import db
-from sqlalchemy import insert,Column,Text
+from sqlalchemy import insert,Column,Text,and_
 from flask_security.decorators import roles_required
-from ..forms import loginForm
-from ..login import Login
 
+
+from ..forms import proveedoresForm
+from ..login import Login
 
 
 @Login.route('/login')
@@ -24,22 +27,16 @@ def login():
 
 @Login.route('/login', methods=['POST'])
 def login_post():
-    
-    login_form = loginForm()    
-    
-    context = {
-        'login_form':login_form
-    }
-    
+    print("login2")
     email = request.form.get('email')
-    password = request.form.get('password')
+    password = request.form.get('contrasena')
 
     #Consultamos si existe un usuario ya registrado con el email.
-    user = Usuario.query.filter_by(email=email).first()
+    user = Usuario.query.filter_by(usuario=email).first()
 
     #Verificamos si el usuario existe
     #Tomamos el password proporcionado por el usuario lo hasheamos, y lo comparamos con el password de la base de datos.
-    if not user or not check_password_hash(user.password, password):
+    if not user or not check_password_hash(user.contrasena, password):
     #if not user or not user.password==encrypt_password(password):
         #Si el usuario no existe o no coinciden los passwords
         flash('El usuario y/o la contraseña son incorrectos')
@@ -48,4 +45,4 @@ def login_post():
     #Si llegamos a este punto sabemos que el usuario tiene datos correctos.
     #Creamos una sessión y logueamos al usuario
     login_user(user)
-    return redirect(url_for('inicio.cargarInicio', **context))
+    return redirect(url_for('inicio.cargarInicio'))

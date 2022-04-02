@@ -2,7 +2,7 @@ from flask_blueprint import Blueprint
 
 
 from flask import Blueprint
-Login = Blueprint('login', __name__, url_prefix='/login')
+Cliente = Blueprint('cliente', __name__, url_prefix='/cliente')
 
 from . import views
 
