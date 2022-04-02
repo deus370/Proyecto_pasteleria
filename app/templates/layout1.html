@@ -44,15 +44,15 @@
                         </li>
                         <li>
                             <a href="{{ url_for('proveedor.cargarTabla') }}" class="nav-link text-dark">
-                                <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-proveedor-50.png"
-                                    alt="nop" width="30" height="30">
+                                <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-proveedor-50.png" alt="nop"
+                                    width="30" height="30">
                                 Proveedores
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link text-dark">
+                            <a href="{{ url_for('producto.cargarTabla') }}" class="nav-link text-dark">
                                 <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-bake-50.png" alt="nop"
-                                width="30" height="30">
+                                    width="30" height="30">
                                 Productos
                             </a>
                         </li>
@@ -76,6 +76,24 @@
         </div>
     </header>
     <div class="container-fluid">
+        <div class="row">
+            {% with mensajes = get_flashed_messages() %}
+            {% if mensajes %}
+            {% for mensaje in mensajes %}
+            {% if mensaje.lower() == 'Venta realizada exitosamente' %}
+            <div class="alert alert-success" role="alert">
+                {{mensaje}}
+            </div>
+            {% endif %}
+            {% if mensaje.lower() != 'Venta realizada exitosamente' %}
+            <div class="alert alert-success" role="alert">
+                {{mensaje}}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
         {% block content %}
 
         {% endblock %}

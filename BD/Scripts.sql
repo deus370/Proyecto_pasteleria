@@ -150,7 +150,7 @@ begin
     #bajar stock de harina 8.5gr de vainilla por media docena
     update ingrediente set cantidad = cantidad-(0.0085*CantidadProducida) where nombre = 'Vainilla' and estatus<>0;
     #bajar stock de harina 40gr de leche por media docena
-    update ingrediente set cantidad = cantidad-(0.040*CantidadProducida) where nombre = 'Harina' and estatus<>0;
+    update ingrediente set cantidad = cantidad-(0.040*CantidadProducida) where nombre ='Leche' and estatus<>0;
     
     #Ingrediente que cambia
     select id_ingrediente from ingrediente inner join receta on
