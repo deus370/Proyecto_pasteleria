@@ -97,7 +97,7 @@ def eliminar():
     id = request.form.get('id')
     print(id)
     
-    insumo = RecetasDB.query.filter_by(id_Receta=id).first()
+    insumo = RecetasDB.query.filter_by(id_receta=id).first()
     insumo.estatus=0
     db.session.commit()
     
