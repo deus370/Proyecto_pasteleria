@@ -16,9 +16,6 @@ from flask_security.decorators import roles_required
 from ..forms import ProductosForm
 from ..Producto import Producto
 
-
-
-
 @Producto.route('/Formulario',methods=['GET','POST'])
 def Formulario():
     #Cargar los provedores y colocarlos en el select
@@ -52,14 +49,59 @@ def Formulario():
         db.session.add(producto)   
         db.session.commit()
         
-        flash("Datos guardados")
+        flash("Se guardaron correctamente los datos")
         return redirect(url_for('producto.cargarTabla'))
 
-    return render_template('productosFormulario.html',**context)
+    return render_template('/productos/productosFormulario.html',**context)
 
 
 @Producto.route('/cargarTabla',methods=['GET','POST'])
 def cargarTabla():    
+    result = ProductosDB.query.filter(ProductosDB.estatus==1).all()
+    user_form = ProductosForm()
+    recetas=[]
+    
+    for i in result:
+            result1 = RecetasDB.query \
+            .with_entities(RecetasDB.nombre) \
+            .filter(RecetasDB.estatus==1,RecetasDB.id_receta.like(i.receta)).all()
+            recetas.append(result1[0].nombre)
+        
+    aux=len(recetas)
+    
+    context={
+        'user_form':user_form,
+        'res':result,
+        'recetas':recetas,
+        'aux':aux
+    }
+    if request.method=="POST":
+        busqueda=request.form.get('busqueda')+'%'
+        recetas=[]
+        
+        result = ProductosDB.query \
+        .with_entities(ProductosDB.id_producto,ProductosDB.nombre,ProductosDB.cantidad,ProductosDB.precio,ProductosDB.descripccion,ProductosDB.receta,ProductosDB.imagen) \
+        .filter(ProductosDB.estatus==1,ProductosDB.nombre.like(busqueda)).all()
+        
+        for i in result:
+            result1 = RecetasDB.query \
+            .with_entities(RecetasDB.nombre) \
+            .filter(RecetasDB.estatus==1,RecetasDB.id_receta.like(i.receta)).all()
+            recetas.append(result1[0].nombre)
+        
+        aux=len(recetas)
+    
+        context={
+            'user_form':user_form,
+            'res':result,
+            'recetas':recetas,
+            'aux':aux
+        }
+        return render_template('/productos/tablaProductos.html',**context)
+    return render_template('/productos/tablaProductos.html',**context)
+
+@Producto.route('/cargarTabla1',methods=['GET','POST'])
+def cargarTabla1():    
     result = ProductosDB.query.filter(ProductosDB.estatus==1).all()
     user_form = ProductosForm()
     recetas=[]
@@ -100,11 +142,9 @@ def cargarTabla():
             'res':result,
             'recetas':recetas,
             'aux':aux
-        }
-        
-        return render_template('tablaProductos.html',**context)
-
-    return render_template('tablaProductos.html',**context)
+        }        
+        return render_template('/productos/tablaClienteProducto.html',**context)
+    return render_template('/productos/tablaClienteProducto.html',**context)
 
 @Producto.route("/eliminar",methods=['GET','POST'])
 def eliminar():
@@ -115,7 +155,7 @@ def eliminar():
     producto.estatus=0
     db.session.commit()
     
-    flash("datos Eliminados")
+    flash("Se eliminaron los datos correctamente")
     return redirect(url_for('producto.cargarTabla'))
 
 
@@ -138,13 +178,11 @@ def cargarActualizar():
         'user_form':user_form,
         'res':result
     }
-        
-    return render_template('productosActualizar.html',**context)
+    return render_template('/productos/productosActualizar.html',**context)
 
 
 @Producto.route("/actualizar",methods=['GET','POST'])
 def actualizar():
-    
     user_form = ProductosForm()
     
     id = request.form.get('id')
@@ -155,9 +193,7 @@ def actualizar():
     img = request.files['img']
     r=user_form.receta.data
     
-    
     id = request.form.get('id')
-    
     
     if not img:
         flash('Imagen no agregada')
@@ -179,8 +215,7 @@ def actualizar():
         producto.receta = r
         producto.imagen=imagen
         db.session.commit()
-    
-    flash("datos actualizados")
+    flash("Se actualizaron correctamente los datos")
     return redirect(url_for('producto.cargarTabla'))
 
 
@@ -190,7 +225,6 @@ def preparar():
     
     id = request.form.get('id')
     
-    
     result = ProductosDB.query \
         .with_entities(ProductosDB.id_producto,ProductosDB.nombre,ProductosDB.imagen,ProductosDB.cantidad) \
         .filter(ProductosDB.id_producto.like(id)).all()
@@ -199,12 +233,10 @@ def preparar():
         'user_form':user_form,
         'res':result
     }
-    
-    return render_template("productosPreparar.html",**context)
+    return render_template("/productos/productosPreparar.html",**context)
 
 @Producto.route("/hornear",methods=['GET','POST'])
 def hornear():
-    
     user_form = ProductosForm()
     
     id = request.form.get('id')
@@ -213,7 +245,6 @@ def hornear():
     producto = ProductosDB.query.filter_by(id_producto=id).first()
     producto.cantidad =(producto.cantidad+c)
     db.session.commit()
-    
     
     flash("Panquecitos Horneados")
     return redirect(url_for('producto.cargarTabla'))

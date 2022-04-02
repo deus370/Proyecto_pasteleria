@@ -27,7 +27,6 @@ def Formulario():
     context={
         'user_form':user_form
     }
-    
     if user_form.is_submitted():
         n=str(user_form.nombre.data)
         c=str(user_form.calle.data)
@@ -35,15 +34,12 @@ def Formulario():
         cp=int(user_form.cp.data)
         colonia=str(user_form.colonia.data)
         
-        
         proveedor = ProveedoresDB(nombre=n,calle=c,numero=nu,cp=cp,colonia=colonia,estatus=1)
-        
-        
         
         db.session.add(proveedor)   
         db.session.commit()
         
-        flash("Datos guardados")
+        flash("Se guardaron correctamente los datos")
         return redirect(url_for('proveedor.cargarTabla'))
     return render_template('/Proveedor/proveedoresFormulario.html',**context)
 
@@ -56,12 +52,10 @@ def cargarTabla():
     context={
         'user_form':user_form,
         'res':result
-    }
-    
+    }    
     if request.method=="POST":
         busqueda=request.form.get('busqueda')+'%'
         print(busqueda)
-        
         
         result = ProveedoresDB.query \
         .with_entities(ProveedoresDB.id_proveedor,ProveedoresDB.nombre,ProveedoresDB.calle,ProveedoresDB.numero,
@@ -86,7 +80,7 @@ def eliminar():
     
     db.session.commit()
     
-    flash("datos Eliminados")
+    flash("Se eliminaron los datos correctamente")
     return redirect(url_for('proveedor.cargarTabla'))
 
 @Proveedor.route("/cargarActualizar",methods=['GET','POST'])
@@ -103,8 +97,7 @@ def cargarActualizar():
     context={
         'user_form':user_form,
         'res':result
-    }
-        
+    }        
     return render_template('/Proveedor/proveedoresActualizar.html',**context)
 
 
@@ -127,7 +120,7 @@ def actualizar():
     proveedor.colonia = colonia
     
     db.session.commit()
-    flash("datos actualizados")
+    flash("Se actualizaron correctamente los datos")
     return redirect(url_for('proveedor.cargarTabla'))
 
 

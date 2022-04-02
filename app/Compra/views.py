@@ -45,10 +45,10 @@ def Formulario():
         db.session.add(compra)   
         db.session.commit()
         
-        flash("Datos guardados")
+        flash("Se guardaron correctamente los datos")
         return redirect(url_for('compra.cargarTabla'))
 
-    return render_template('comprasFormulario.html',**context)
+    return render_template('/compra/comprasFormulario.html',**context)
 
 
 @Compra.route('/cargarTabla',methods=['GET','POST'])
@@ -116,12 +116,9 @@ def cargarTabla():
         'aux':aux
         }
         
-        return render_template('tablaCompras.html',**context)
+        return render_template('/compra/tablaCompras.html',**context)
 
-    return render_template('tablaCompras.html',**context)
-
-
-
+    return render_template('/compra/tablaCompras.html',**context)
 
 @Compra.route("/cancelar",methods=['GET','POST'])
 def actualizar():
@@ -135,9 +132,8 @@ def actualizar():
     compra = ComprasDB.query.filter_by(id_pedido=id).first()
     compra.estatus =0 
     
-    
     db.session.commit()
-    flash("datos actualizados")
+    flash("Se cancelo correctamente la compra")
     return redirect(url_for('compra.cargarTabla'))
 
 

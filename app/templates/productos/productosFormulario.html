@@ -4,22 +4,29 @@
 {% from "_macros.html" import render_field %}
 <div class="container-fluid">
     <div class="row">
-        <h1 class="text-center">Registrar Compra</h1>
+        <h1 class="text-center">Registrar Producto</h1>
     </div>
 </div>
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <form class="form-horizontal" name="form1" action="" method="POST">
+            <form class="form-horizontal" name="form1" action="" method='POST' enctype="multipart/form-data">
                 {{ user_form.csrf_token }}
                 <input type="hidden" value="{{ csrf_token }})">
                 <div class="form-group row">
                     <div class="col-sm-1-12">
-                        {{render_field(user_form.costo, class="form-control")}}
+                        {{render_field(user_form.nombre, class='form-control')}}
                         <br>
-                        {{render_field(user_form.cantidad, class="form-control")}}
+                        {{render_field(user_form.cantidad, class='form-control')}}
                         <br>
-                        {{render_field(user_form.ingrediente, class="form-control")}}
+                        {{render_field(user_form.descripcion, class='form-control')}}
+                        <br>
+                        {{render_field(user_form.precio, class='form-control')}}
+                        <br>
+                        {{render_field(user_form.receta, class='form-control')}}
+                        <br>
+                        <label class="form-label">Imagen</label>
+                        <input class="form-control" type="file" name="img" placeholder="Imagen">
                         <br>
                     </div>
                 </div>

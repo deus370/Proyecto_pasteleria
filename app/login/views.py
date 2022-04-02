@@ -8,7 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_security import login_required
 from flask_security.utils import login_user
 #Importamos el modelo del usuario
-from ..modelos import User
+from ..modelos import Usuario
 #Importamoes el objeto de la BD y userDataStore desde __init__
 from .. import db
 from sqlalchemy import insert,Column,Text
@@ -20,7 +20,7 @@ from ..login import Login
 
 @Login.route('/login')
 def login():
-    return render_template('index.html')
+    return render_template('/login/login.html')
 
 @Login.route('/login', methods=['POST'])
 def login_post():
@@ -35,7 +35,7 @@ def login_post():
     password = request.form.get('password')
 
     #Consultamos si existe un usuario ya registrado con el email.
-    user = User.query.filter_by(email=email).first()
+    user = Usuario.query.filter_by(email=email).first()
 
     #Verificamos si el usuario existe
     #Tomamos el password proporcionado por el usuario lo hasheamos, y lo comparamos con el password de la base de datos.
@@ -48,4 +48,4 @@ def login_post():
     #Si llegamos a este punto sabemos que el usuario tiene datos correctos.
     #Creamos una sessión y logueamos al usuario
     login_user(user)
-    return redirect(url_for('main.getProductsCliente', **context))
+    return redirect(url_for('inicio.cargarInicio', **context))
