@@ -35,9 +35,6 @@ def create_app():
     from .Empleado.views import Empleado
     app.register_blueprint(Empleado)
     
-    from .Cliente.views import Cliente
-    app.register_blueprint(Cliente)
-    
     from .Inicio.views import Inicio
     app.register_blueprint(Inicio)
     
