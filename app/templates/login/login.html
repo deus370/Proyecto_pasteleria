@@ -1,31 +1,34 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="column is-4 is-offset-4">
-    <h3 class="title">Iniciar Sesion</h3>
-    <div class="box">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <div class="notification is-danger">
-            {{ messages[0] }}
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="/static/img/CROWNCUPCAKE2.jpg" class="img-fluid" alt="">
+            </div>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form>
+                    <div class="form-outline mb-4">
+                        <label class="form-label">Usuario</label>
+                        <input type="text" class="form-control form-control-lg"
+                            placeholder="Ingrese su usuario" />
+                        
+                    </div>
+                    <div class="form-outline mb-3">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" class="form-control form-control-lg"
+                            placeholder="Ingrese su contraseña" />
+                    </div>
+
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="button" class="btn btn-primary btn-lg">Iniciar Sesion</button>
+                        <p class="small fw-bold mt-2 pt-1 mb-0">¿No tienes cuenta? 
+                            <a href="#!" class="link-danger">Registrate</a></p>
+                    </div>
+
+                </form>
+            </div>
         </div>
-        {% endif %}
-        {% endwith %}
-        <form method="POST" action="/security/login">
-            <div class="field">
-                <div class="control">
-                    <input class="input is-medium is-rounded" type="email" name="email" placeholder="hello@example.com"
-                        autocomplete="username" required />
-                </div>
-            </div>
-            <div class="field">
-                <div class="control">
-                    <input class="input is-medium is-rounded" type="password" name="password" placeholder="**********"
-                        autocomplete="current-password" required />
-                </div>
-            </div>
-            <br />
-            <button class="button is-block is-fullwidth is-primary is-medium is-rounded" type="submit"> Login </button>
-        </form>
     </div>
-</div>
+</section>
 {% endblock %}
