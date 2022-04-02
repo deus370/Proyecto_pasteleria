@@ -41,7 +41,7 @@ def Formulario():
         db.session.add(insumo)   
         db.session.commit()
         
-        flash("Datos guardados")
+        flash("Se guardaron correctamente los datos")
         return redirect(url_for('insumo.cargarTabla'))
 
     return render_template('/insumos/insumosFormulario.html',**context)
@@ -107,7 +107,7 @@ def eliminar():
     insumo.estatus=0
     db.session.commit()
     
-    flash("datos Eliminados")
+    flash("Se eliminaron los datos correctamente")
     return redirect(url_for('insumo.cargarTabla'))
 
 
@@ -121,7 +121,6 @@ def cargarActualizar():
     
     id = request.form.get('id')
     
-    
     result = IngredientesDB.query \
         .with_entities(IngredientesDB.id_ingrediente,IngredientesDB.nombre,IngredientesDB.cantidad,IngredientesDB.unidad,IngredientesDB.proveedor) \
         .filter(IngredientesDB.id_ingrediente.like(id)).all()
@@ -130,7 +129,6 @@ def cargarActualizar():
         'user_form':user_form,
         'res':result
     }
-        
     return render_template('/insumos/insumosActualizar.html',**context)
 
 
@@ -145,7 +143,6 @@ def actualizar():
     unidad=request.form.get('unidad')
     proveedor=request.form.get('proveedor')
         
-        
     #aCTUALIZAR
     insumo = IngredientesDB.query.filter_by(id_ingrediente=id).first()
     insumo.nombre = nombre
@@ -154,7 +151,7 @@ def actualizar():
     insumo.proveedor = proveedor
     
     db.session.commit()
-    flash("datos actualizados")
+    flash("Se actualizaron correctamente los datos")
     return redirect(url_for('insumo.cargarTabla'))
 
 

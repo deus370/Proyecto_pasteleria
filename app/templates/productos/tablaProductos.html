@@ -19,7 +19,7 @@
                     </form>
                 </div>
                 <div class="col-8 align-self-center text-center">
-                    <h1>Recetas</h1>
+                    <h1>Productos</h1>
                 </div>
                 <div class="col-1 align-self-center text-end">
                     <form action="./cargarTabla">
@@ -45,41 +45,49 @@
             <table class="table">
                 <tr class="tr-head">
                     <th>Nombre</th>
-                    <th>Ingredientes</th>
-                    <th>Sabor</th>
                     <th>Cantidad</th>
+                    <th>Precio </th>
+                    <th>Foto</th>
+                    <th>Descripcion</th>
+                    <th>Receta</th>
                     <th>Acciones</th>
                 </tr>
                 {% for i in range(aux) %}
                 <tr class="tr-head">
                     <td>{{res[i]['nombre']}}</td>
-                    <td>1 huevo
-                        70 gr de azúcar <br>
-                        1 pizca de sal <br>
-                        60 gr de harina <br>
-                        60 gr de mantequilla <br>
-                        4 gr de polvo para hornear <br>
-                        1/2 cda de vainilla <br>
-                        40 gr de leche</td>
-                    <td>{{ingrediente[i]}}</td>
                     <td>{{res[i]['cantidad']}}</td>
+                    <td>{{res[i]['precio']}}</td>
+                    <td>
+                        <img src="data:mimetype;base64,{{res[i].imagen}}" width="100" height="auto" />
+                    </td>
+                    <td>{{res[i].descripccion}}</td>
+                    <td>{{recetas[i]}}</td>
                     <td>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <form method="POST" action="./cargarActualizar">
                                     {{ user_form.csrf_token }}
                                     <input type="hidden" value="{{ csrf_token }})">
-                                    <input type="hidden" value="{{res[i].id_receta}}" name="id">
+                                    <input type="hidden" value="{{res[i].id_producto}}" name="id">
                                     <input type="submit" class="btn btn-warning" value="Actualizar">
                                 </form>
                             </div>
 
-                            <div class="col-6">
+                            <div class="col-4">
                                 <form method="POST" action="./eliminar">
                                     {{ user_form.csrf_token }}
                                     <input type="hidden" value="{{ csrf_token }})">
-                                    <input type="hidden" value="{{res[i].id_receta}}" name="id">
+                                    <input type="hidden" value="{{res[i].id_producto}}" name="id">
                                     <input type="submit" class="btn btn-danger" value="Eliminar">
+                                </form>
+                            </div>
+
+                            <div class="col-4">
+                                <form method="POST" action="./preparar">
+                                    {{ user_form.csrf_token }}
+                                    <input type="hidden" value="{{ csrf_token }})">
+                                    <input type="hidden" value="{{res[i].id_producto}}" name="id">
+                                    <input type="submit" class="btn btn-primary" value="Hornear">
                                 </form>
                             </div>
                         </div>
