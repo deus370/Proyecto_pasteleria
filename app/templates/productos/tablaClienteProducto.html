@@ -1,17 +1,27 @@
-{% extends 'layout1.html' %}
+{% extends 'layout.html' %}
 
 {% block content %}
 {% from "_macros.html" import render_field %}
-
-
 <div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <br>
+            <h1>Nuestros Productos</h1>
+        </div>
+    </div>
     <div class="row">
         {% for i in range(aux) %}
         <div class="col-4">
-            <h5 class="card-title">{{res[i]['nombre']}}</h5>
-            <img src="data:mimetype;base64,{{res[i].imagen}}" class="img-fluid" alt="">
-            <h5 class="card-title">{{res[i]['precio']}}</h5>
-            <p class="card-text">{{res[i].descripccion}}</p>
+            <br>
+            <div class="card text-center">
+                <div class=" card-body">
+                    <h5 class="card-title">{{res[i]['nombre']}}</h5>
+                    <img src="data:mimetype;base64,{{res[i].imagen}}" class="img-fluid" alt="" width="200"
+                        height="auto">
+                    <h5 class="card-title">{{res[i]['precio']}}</h5>
+                    <p class="card-text">{{res[i].descripccion}}</p>
+                </div>
+            </div>
         </div>
         {% endfor %}
     </div>

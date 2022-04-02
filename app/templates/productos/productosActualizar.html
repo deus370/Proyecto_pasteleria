@@ -3,6 +3,7 @@
 {% block content %}
 {% from "_macros.html" import render_field %}
 <div class="container-fluid">
+    <br>
     <div class="row">
         <h1 class="text-center">Actualizar Producto</h1>
     </div>
@@ -19,7 +20,7 @@
                         <div class="col-sm-1-12">
                             <input value="{{i.id_producto}}" type="hidden" name="id">
                             <div style="text-align: center;">
-                                <img class="img-fluid" src="data:mimetype;base64,{{i.imagen}}" width="400" height="auto"
+                                <img class="img-fluid" src="data:mimetype;base64,{{i.imagen}}" width="200" height="auto"
                                     alt="Imagen Producto" />
                             </div>
                             <label class="form-label">Nombre</label>

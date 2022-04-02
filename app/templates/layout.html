@@ -10,7 +10,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
-<body>
+<body style="background-color:#FBF7F3">
     <header style="background-color:#FFB6C1">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -19,13 +19,24 @@
                 </a>
 
                 <div class="col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <input href="/" type="button" class="btn btn-outline-dark" value="Inicio">
-                    <input href="{{ url_for('app.acerca') }}" type="button" class="btn btn-outline-dark" value="¿Quienés somos?">
+                    <a href="/">
+                        <input type="button" class="btn btn-outline-dark" value="Inicio">
+                    </a>
+                    <a href="{{ url_for('inicio.cargarAcerca') }}">
+                        <input type="button" class="btn btn-outline-dark" value="¿Quienés somos?">
+                    </a>
+                    <a href="{{ url_for('producto.cargarTabla1') }}">
+                        <input type="button" class="btn btn-outline-dark" value="Nuestros productos">
+                    </a>
                 </div>
 
                 <div class="text-end">
-                    <button type="button" class="btn btn-outline-light me-2">Login</button>
-                    <button type="button" class="btn btn-outline-success">Registro</button>
+                    <a href="{{ url_for('login.login') }}">
+                        <button type="button" class="btn btn-outline-light me-2">Login</button>
+                    </a>
+                    <a href="">
+                        <button type="button" class="btn btn-outline-success">Registro</button>
+                    </a>                    
                 </div>
             </div>
         </div>

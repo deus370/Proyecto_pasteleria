@@ -1,6 +1,6 @@
 from flask_blueprint import Blueprint
 
 from flask import Blueprint
-Inicio = Blueprint('inicio', __name__, url_prefix='/inicio')
+Login = Blueprint('login', __name__, url_prefix='/login')
 
 from . import views

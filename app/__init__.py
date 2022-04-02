@@ -32,6 +32,9 @@ def create_app():
     from .Inicio.views import Inicio
     app.register_blueprint(Inicio)
     
+    from .Login.views import Login
+    app.register_blueprint(Login)
+    
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SECRET_KEY'] = os.urandom(24)
     #Definimos la ruta a la BD: mysql://user:password@localhost/bd'
@@ -47,5 +50,4 @@ def create_app():
 
     #Conectando los modelos a fask-security usando SQLAlchemyUserDatastore
     security = Security(app, userDataStore)
-    
     return app
