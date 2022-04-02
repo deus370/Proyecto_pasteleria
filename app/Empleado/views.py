@@ -45,16 +45,14 @@ def Formulario():
         if user: #Si se encontró un usuario, redireccionamos de regreso a la página de registro
             flash('El correo electrónico ya existe')
             #return redirect(url_for('auth.register'))
-            return render_template('personaFormulario.html',**context)
+            return render_template('empleado/EmpleadoFormulario.html',**context)
         
         persona = Persona(nombre=n,a_paterno=ap,a_materno=am,telefono=telefono,correo=correo,calle=c,numero=nu,cp=cp,colonia=colonia)
-        print(persona)
         db.session.add(persona)
         db.session.commit()
         
         persona_nuevo = Persona.query.filter_by(correo=correo).first()
         personaId = persona_nuevo.id_persona;
-        print(personaId)
         
         userDataStore.create_user(
             usuario=correo,contrasena=generate_password_hash(contrasena, method='sha256'),persona=personaId,estatus=1
@@ -62,18 +60,16 @@ def Formulario():
         
         db.session.commit()
         
-        print("usuario creado")
         #usuario = Usuario(usuario=correo,contrasena=contrasena,persona=personaId,rol=2)
         
-        flash("Datos guardados")
         #return redirect(url_for('proveedor.cargarTabla'))
-        return render_template('personaFormulario.html',**context)
+        return render_template('empleado/EmpleadoFormulario.html',**context)
 
-    return render_template('personaFormulario.html',**context)
+    return render_template('empleado/EmpleadoFormulario.html',**context)
 
 
 @Empleado.route('/cargarTablaEmpleado',methods=['GET','POST'])
-def cargarTabla():    
+def cargarTablaEmpleado():    
     result = db.session.query(Persona.id_persona,Persona.nombre, Persona.a_materno, Persona.a_materno,Persona.calle,Persona.numero,
             Persona.cp,Persona.colonia).filter(Persona.correo == Usuario.usuario).filter(Usuario.estatus == 1).all()
     user_form = EmpleadosForm()
@@ -95,40 +91,38 @@ def cargarTabla():
         'res':result
         }
         
-        return render_template('tablaEmpleados.html',**context)
+        return redirect(url_for('empleado.cargarTablaEmpleado',**context))
 
-    return render_template('tablaEmpleados.html',**context)
+    return render_template('empleado/tablaEmpleados.html',**context)
 
 @Empleado.route("/eliminarEmpleado",methods=['GET','POST'])
-def eliminar():
+def eliminarEmpleado():
     id_persona = request.form.get('id')
     print(id_persona)
     
     usuario = Usuario.query.filter_by(persona=id_persona).first()
     usuario.estatus = 0
-    db.session.delete(usuario)
     db.session.commit()
     
     flash("datos Eliminados")
     return redirect(url_for('empleado.cargarTablaEmpleado'))
 
-'''@Empleado.route("/cargarActualizar",methods=['GET','POST'])
-def cargarActualizar():
-    user_form = proveedoresForm()
+@Empleado.route("/cargarActualizarEmpleado",methods=['GET','POST'])
+def cargarActualizarEmpleado():
+    user_form = EmpleadosForm()
     
     id = request.form.get('id')
     
-    result = ProveedoresDB.query \
-        .with_entities(ProveedoresDB.id_proveedor,ProveedoresDB.nombre,ProveedoresDB.calle,ProveedoresDB.numero,
-            ProveedoresDB.cp,ProveedoresDB.colonia) \
-        .filter(ProveedoresDB.id_proveedor.like(id)).all()
+    result = Persona.query \
+        .with_entities(Persona.id_persona,Persona.nombre,Persona.a_paterno,Persona.a_materno,Persona.telefono,Persona.calle,Persona.numero,Persona.cp,Persona.colonia) \
+        .filter(Persona.id_persona.like(id)).all()
         
     context={
         'user_form':user_form,
         'res':result
     }
         
-    return render_template('proveedoresActualizar.html',**context)
+    return render_template('empleado/EmpleadoActualizar.html',**context)
 
 
 @Empleado.route("/actualizar",methods=['GET','POST'])
@@ -136,22 +130,25 @@ def actualizar():
     
     id = request.form.get('id')
     nombre=request.form.get('nombre')
+    ap=request.form.get('a_paterno')
+    am=request.form.get('a_materno')
+    telefono=request.form.get('telefono')
     calle=request.form.get('calle')
     numero=request.form.get('numero')
     cp=request.form.get('cp')
     colonia=request.form.get('colonia')
     
     #aCTUALIZAR
-    proveedor = ProveedoresDB.query.filter_by(id_proveedor=id).first()
-    proveedor.nombre = nombre
-    proveedor.calle = calle
-    proveedor.numero = numero
-    proveedor.cp = cp
-    proveedor.colonia = colonia
+    persona = Persona.query.filter_by(id_persona=id).first()
+    persona.nombre = nombre
+    persona.a_paterno = ap
+    persona.a_materno = am
+    persona.telefono = telefono
+    persona.calle = calle
+    persona.numero = numero
+    persona.cp = cp
+    persona.colonia = colonia
     
     db.session.commit()
     flash("datos actualizados")
-    return redirect(url_for('proveedor.cargarTabla'))
-
-
-'''
+    return redirect(url_for('empleado.cargarTablaEmpleado'))

@@ -1,0 +1,32 @@
+{% extends "layout1.html" %}
+
+{% block content %}
+{% from "_macros.html" import render_field %}
+<div class="container-fluid">
+    <div class="row">
+        <h1 class="text-center">Registrar Receta</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <form class="form-horizontal" name="form1" action="" method="POST">
+                {{ user_form.csrf_token }}
+                <input type="hidden" value="{{ csrf_token }})">
+                <div class="form-group row">
+                    <div class="col-sm-1-12">
+                        {{render_field(user_form.nombre, class='form-control')}}
+                        {{render_field(user_form.ingrediente, class='form-control')}}
+                        {{render_field(user_form.cantidad, class='form-control')}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-1-12 text-end">
+                        <input type="submit" class="btn btn-success" value="Agregar">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

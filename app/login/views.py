@@ -43,7 +43,7 @@ def login_post():
     #if not user or not user.password==encrypt_password(password):
         #Si el usuario no existe o no coinciden los passwords
         flash('El usuario y/o la contraseña son incorrectos')
-        return redirect(url_for('auth.login')) #Si el usuario no existe o el password es incorrecto regresamos a login
+        return redirect(url_for('login.login')) #Si el usuario no existe o el password es incorrecto regresamos a login
     
     #Si llegamos a este punto sabemos que el usuario tiene datos correctos.
     #Creamos una sessión y logueamos al usuario

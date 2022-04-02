@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+{% extends 'layout1.html' %}
 
 {% block content %}
 {% from "_macros.html" import render_field %}
@@ -31,30 +31,37 @@
         <div class="col-8">
             <table class="table">
                 <tr class="tr-head">
-                    <th>id_proveedor</th>
+                    <th>id_Receta</th>
                     <th>Nombre</th>
-                    <th>Calle</th>
-                    <th>Numero</th>
-                    <th>Codigo Postal</th>
-                    <th>Colonia</th>
-                    <th>Acciones</th>
+                    <th>Ingredientes</th>
+                    <th>Sabor</th>
+                    <th>Cantidad</th>
                 </tr>
-                {% for i in res %}
+                {% for i in range(aux) %}
                 <tr class="tr-head">
                     
-                    <td>{{i['id_proveedor']}}</td>
-                    <td>{{i['nombre']}}</td>
-                    <td>{{i['calle']}}</td>
-                    <td>{{i['numero']}}</td>
-                    <td>{{i['cp']}}</td>
-                    <td>{{i['colonia']}}</td>
+                    <td>{{res[i].id_receta}}</td>
+                    <td>{{res[i]['nombre']}}</td>
+                    
+                    <td>1 huevo
+                        70 gr de azúcar <br>
+                        1 pizca de sal <br>
+                        60 gr de harina <br>
+                        60 gr de mantequilla <br>
+                        4 gr de polvo para hornear <br> 
+                        1/2 cda de vainilla <br>
+                        40 gr de leche</td>
+                    <td>{{ingrediente[i]}}</td>
+                    <td>{{res[i]['cantidad']}}</td>
+                    
+                    
                     <td> 
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-6">
                                 <form method="POST" action="./cargarActualizar">
                                 {{ user_form.csrf_token }}
                                 <input type="hidden" value="{{ csrf_token }})">
-                                    <input type="hidden" value="{{i.id_proveedor}}" name="id">
+                                    <input type="hidden" value="{{res[i].id_receta}}" name="id">
                                     <input type="submit" class="btn-primary" value="Update">
                                 </form>
                             </div>
@@ -63,7 +70,7 @@
                                 <form method="POST" action="./eliminar">
                                 {{ user_form.csrf_token }}
                                 <input type="hidden" value="{{ csrf_token }})">
-                                    <input type="hidden" value="{{i.id_proveedor}}" name="id">
+                                    <input type="hidden" value="{{res[i].id_receta}}" name="id">
                                     <input type="submit"  class="btn-primary" value="Eliminar">
                                 </form>
                             </div>

@@ -1,0 +1,88 @@
+{% extends 'layout1.html' %}
+
+{% block content %}
+{% from "_macros.html" import render_field %}
+<div class="container">
+    <div class="row">
+        <div class="px-3 py-2 border-bottom mb-3">
+            <div class="container d-flex flex-wrap justify-content-center">
+                <div class="col-2 align-self-center">
+                    <form method="POST" action="./cargarTabla">
+                        {{ user_form.csrf_token }}
+                        <input type="hidden" value="{{ csrf_token }})">
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="search" class="form-control" placeholder="Busqueda" aria-label="Search"
+                                    name="busqueda">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-8 align-self-center text-center">
+                    <h1>Proveedores</h1>
+                </div>
+                <div class="col-1 align-self-center text-end">
+                    <form action="./cargarTabla">
+                        <input type="image" class="btn btn-primary" src="/static/svg/icons8-actualizar-30.png"
+                            value="Agregar">
+                    </form>
+                </div>
+                <div class="col-1 align-self-center text-end">
+                    <form action="./Formulario">
+                        {{ user_form.csrf_token }}
+                        <input type="hidden" value="{{ csrf_token }})">
+                        <input type="submit" class="btn btn-success" value="Agregar">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% from "_macros.html" import render_field %}
+<div class="container text-center">
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+                <tr class="tr-head">
+                    <th>Nombre</th>
+                    <th>Calle</th>
+                    <th>Numero</th>
+                    <th>Codigo Postal</th>
+                    <th>Colonia</th>
+                    <th>Acciones</th>
+                </tr>
+                {% for i in res %}
+                <tr class="tr-head">
+                    <td>{{i['nombre']}}</td>
+                    <td>{{i['calle']}}</td>
+                    <td>{{i['numero']}}</td>
+                    <td>{{i['cp']}}</td>
+                    <td>{{i['colonia']}}</td>
+                    <td>
+                        <div class="row">
+                            <div class="col-6">
+                                <form method="POST" action="./cargarActualizar">
+                                    {{ user_form.csrf_token }}
+                                    <input type="hidden" value="{{ csrf_token }})">
+                                    <input type="hidden" value="{{i.id_proveedor}}" name="id">
+                                    <input type="submit" class="btn btn-warning" value="Actualizar">
+                                </form>
+                            </div>
+
+                            <div class="col-6">
+                                <form method="POST" action="./eliminar">
+                                    {{ user_form.csrf_token }}
+                                    <input type="hidden" value="{{ csrf_token }})">
+                                    <input type="hidden" value="{{i.id_proveedor}}" name="id">
+                                    <input type="submit" class="btn btn-danger" value="Eliminar">
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

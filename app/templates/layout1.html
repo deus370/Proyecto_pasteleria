@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+    <header style="background-color:#FFB6C1">
+        <div class="px-3 py-2  text-white">
+            <div class="container-fluid">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a href="/"
+                        class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                        <img src="/static/img/CROWNCUPCAKE1.png" alt="nop" width="100" height="52">
+                    </a>
+
+                    <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                        <li>
+                            <a href="/" class="nav-link text-dark">
+                                <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-casa-50.png" alt="nop"
+                                    width="30" height="30">
+                                Inicio
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link text-dark">
+                                <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-invitado-masculino-50.png"
+                                    alt="nop" width="30" height="30">
+                                Clientes
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('insumo.cargarTabla') }}" class="nav-link text-dark">
+                                <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-paquete1-50.png" alt="nop"
+                                    width="30" height="30">
+                                Insumos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('proveedor.cargarTabla') }}" class="nav-link text-dark">
+                                <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-proveedor-50.png"
+                                    alt="nop" width="30" height="30">
+                                Proveedores
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link text-dark">
+                                <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-bake-50.png" alt="nop"
+                                width="30" height="30">
+                                Productos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link text-dark">
+                                <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-cookbook1-50.png" alt="nop"
+                                    width="30" height="30">
+                                Recetas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link text-dark">
+                                <img class="bi d-block mx-auto mb-1" src="/static/svg/icons8-salida-50.png" alt="nop"
+                                    width="30" height="30">
+                                Cerrar Sesion
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid">
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</body>
+
+</html>

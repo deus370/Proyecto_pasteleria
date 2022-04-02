@@ -1,16 +1,17 @@
-{% extends "layout.html" %}
+{% extends "layout1.html" %}
 
 {% block content %}
+{% from "_macros.html" import render_field %}
 <div class="column is-4 is-offset-4">
     <h3 class="title">Actualziar Producto</h3>
     <div class="box">
-        <form method="POST" action="./actualizar">
-            <form method="POST" action="./eliminar">
+        <form method="POST" action="./actualizar" enctype="multipart/form-data">
             {{ user_form.csrf_token }}
             {% for i in res %}
+            <img src="data:mimetype;base64,{{i.imagen}}" width="100" height="auto" alt="Imagen Producto"/>
             <div class="field">
                 <div class="control">
-                    <input value="{{i.id_proveedor}}"  type="hidden" name="id">
+                    <input value="{{i.id_producto}}"  type="hidden" name="id">
                 </div>
             </div>
             <div class="field">
@@ -21,29 +22,32 @@
 
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" value="{{i.calle}}" name="calle" type="text" placeholder="Calle" autofocus="">
+                    <input class="input is-large" value="{{i.cantidad}}" name="cantidad" type="float" placeholder="Calle" autofocus="">
                     
                 </div>
             </div>
 
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" value="{{i.numero}}" name="numero" type="number" placeholder="Numero" autofocus="">
+                    <input class="input is-large" value="{{i.precio}}" name="precio" type="float" placeholder="Calle" autofocus="">
                     
                 </div>
             </div>
 
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" value="{{i.cp}}" name="cp" type="number" placeholder="Codigo Postal" autofocus="">
+                    <input class="input is-large" value="{{i.descripccion}}" name="descripcion" type="float" placeholder="Calle" autofocus="">
                     
                 </div>
             </div>
 
+
+            {{render_field(user_form.receta)}}
+
+
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" value="{{i.colonia}}" name="colonia" type="text" placeholder="colonia" autofocus="">
-                    
+                    <input class="input is-large" type="file" name="img" placeholder="Imagen">
                 </div>
             </div>
 

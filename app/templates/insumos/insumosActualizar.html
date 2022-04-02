@@ -1,0 +1,47 @@
+{% extends "layout1.html" %}
+
+{% block content %}
+{% from "_macros.html" import render_field %}
+<div class="container-fluid">
+    <div class="row">
+        <h1 class="text-center">Actualizar Insumo</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <form class="form-horizontal" method="POST" action="./actualizar">
+                {{ user_form.csrf_token }}
+                <input type="hidden" value="{{ csrf_token }})">
+                {% for i in res %}
+                <div class="container">
+                    <div class="form-group row ">
+                        <div class="col-sm-1-12">
+                            <input value="{{i.id_ingrediente}}" type="hidden" name="id">
+
+                            <label class="form-label">Nombre</label>
+                            <input class="form-control" value="{{i.nombre}}" type="text" name="nombre"
+                                placeholder="nombre" autofocus="">
+                            <br>
+                            <label class="form-label">Cantidad</label>
+                            <input class="form-control" value="{{i.cantidad}}" name="cantidad" type="float"
+                                placeholder="Calle" autofocus="">
+                            <br>
+                            {{render_field(user_form.unidad, class="form-control")}}
+                            <br>
+                            {{render_field(user_form.proveedor, class="form-control")}}
+                            <br>
+                            <div class="form-group row">
+                                <div class="col-sm-1-12 text-end">
+                                    <input type="submit" class="btn btn-success" value="Actualizar">
+                                </div>
+                            </div>
+                            {% endfor%}
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
