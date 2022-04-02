@@ -211,12 +211,7 @@ def hornear():
     c = float(request.form.get('hornear'))
     
     producto = ProductosDB.query.filter_by(id_producto=id).first()
-    result = ProductosDB.query.filter_by(id_producto=id).first()
-    receta = RecetasDB.query.filter_by(id_receta=producto.receta) 
-    
-    print("Este es el producto")
-    print(receta.nombre)
-    #producto.cantidad =(producto.cantidad+c)
+    producto.cantidad =(producto.cantidad+c)
     db.session.commit()
     
     
